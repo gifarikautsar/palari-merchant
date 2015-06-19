@@ -1,11 +1,12 @@
 phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$window' , '$state', '$stateParams' , function($scope, $http, $log, $window, $state, $stateParams){
+	$scope.load = true;
 	$scope.haveProduct = false;
 	$scope.productDetails = {
 		name: '',
 		description: '',
 		price: '',
 		image: '',
-		limitless: true,
+		limitless: false,
 		weight: '0',
 		insurance: 'No',
 		need_address: false
@@ -15,6 +16,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 		merchant_product: {}
 	};
 	$scope.getProductList = function(){
+		$scope.load = true;
 		$log.debug($window.sessionStorage.token);
 		$http.post(
 			//url
@@ -47,7 +49,10 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 			$log.debug(data);
 			$scope.error = data.error;				
 		});
-	}
+		setTimeout(function() {
+			$scope.load = false;
+		}, 50);
+	};
 
 	$scope.submitProduct = function(){
 		if ($scope.addProductForm.$valid){

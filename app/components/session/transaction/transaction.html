@@ -1,49 +1,55 @@
-<!-- Details Unset -->
-<div class="content" ng-init="getTransactionList()" ng-show="!haveTransaction">
-	<div class="inner-content">
-		<span class="subtitle">Transaction List</span>
-	</div>
-	<div class="inner-content">
-		<p class="text-label text-center">You haven't had any transactions yet.</p>
-	</div>
-</div>
-
-<!-- Details Set -->
-<div class="content" ng-show="haveTransaction">
-	<div class="inner-content vertical-align">
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
-			<div class="left-inner-addon">
-				<input type="text" class="form-control" ng-model="searchTransaction" placeholder="Search Transaction">
-				<i class="glyphicon glyphicon-search" style="color: #000000"></i>
-			</div>
+<div ng-show="load" class="loading-gif" ng-cloak></div>
+<div ng-show="!load" ng-cloak>
+	<!-- Details Unset -->
+	<div class="content" ng-init="getTransactionList()" ng-show="!haveTransaction" ng-cloak>
+		<div class="inner-content">
+			<span class="subtitle">Transaction List</span>
 		</div>
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
-			<div class="right-inner-addon">
-	      		<select ng-model="transactionType">
-	      			<option value="">All Transaction</option>
-					<option value="capture">Capture</option>
-					<option value="pending">Pending</option>
-					<option value="settlement">Settlement</option>
-					<option value="cancel">Cancel</option>
-				</select>
-	      		<i class="glyphicon glyphicon-triangle-bottom border-left"></i>
-	  		</div>
-  		</div>
+		<div class="inner-content">
+			<p class="text-label text-center">You haven't had any transactions yet.</p>
+		</div>
 	</div>
-	<div class="inner-content">
-		<table class="transaction-table">
-			<tr>
-				<th>Order ID</th>
-				<th>Date & Time</th>
-				<th>Status</th>
-			</tr>
-			<tr ng-repeat="transaction in transactions | filter : {order_id : searchTransaction} | filter : {transaction_status : transactionType}">
-				<td> 
-					<a ui-sref="merchant.transactionDetails({transactionId: '{{transaction.order_id}}'})" class="link-orange"><u>{{transaction.order_id}}</u></a>
-				</td>
-				<td>{{transaction.transaction_date}}</td>
-				<td>{{transaction.transaction_status}}</td>
-			</tr>
-		</table>
+
+	<!-- Details Set -->
+	<div class="content" ng-show="haveTransaction" ng-cloak>
+		<div class="inner-content vertical-align">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
+				<div class="left-inner-addon">
+					<input type="text" class="form-control" ng-model="searchTransaction" placeholder="Search Transaction">
+					<i class="glyphicon glyphicon-search" style="color: #000000"></i>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
+				<div class="right-inner-addon">
+		      		<select ng-model="transactionType">
+		      			<option value="">All Transaction</option>
+						<option value="capture">Capture</option>
+						<option value="pending">Pending</option>
+						<option value="settlement">Settlement</option>
+						<option value="cancel">Cancel</option>
+					</select>
+		      		<i class="glyphicon glyphicon-triangle-bottom border-left"></i>
+		  		</div>
+	  		</div>
+		</div>
+		<div class="inner-content">
+			<table class="transaction-table">
+				<tr>
+					<th>Order ID</th>
+					<th>Date & Time</th>
+					<th>Status</th>
+				</tr>
+				<tr dir-paginate="transaction in transactions | filter : {order_id : searchTransaction} | filter : {transaction_status : transactionType} | orderBy : '-transaction_date' | itemsPerPage:10">
+					<td> 
+						<a ui-sref="merchant.transactionDetails({transactionId: '{{transaction.order_id}}'})" class="link-orange"><u>{{transaction.order_id}}</u></a>
+					</td>
+					<td>{{transaction.transaction_date}}</td>
+					<td>{{transaction.transaction_status}}</td>
+				</tr>
+			</table>
+			<p class="text-right">
+				<dir-pagination-controls max-size="7"></dir-pagination-controls>
+			</p>
+		</div>
 	</div>
 </div>

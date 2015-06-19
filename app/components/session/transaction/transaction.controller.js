@@ -1,9 +1,11 @@
 sessionApp.controller('transactionController', ['$scope' , '$http' , '$log' , '$window' , '$state' ,'$stateParams' , 
 	function($scope, $http, $log, $window, $state, $stateParams){
+		$scope.load = true;
 		$scope.haveTransaction = false;
 		$scope.transactionType = '';
 		$scope.transactions = null;
 		$scope.getTransactionList = function(){
+			$scope.load = true;
 			$http.post(
 				//url
 				phinisiEndpoint + '/merchant/transaction',
@@ -34,6 +36,9 @@ sessionApp.controller('transactionController', ['$scope' , '$http' , '$log' , '$
 				$log.debug(data);
 				$scope.error = data.error;				
 			});
+			setTimeout(function() {
+				$scope.load = false;
+			}, 50);
 		};
 }]);
 
@@ -149,7 +154,35 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 
 	$scope.cancelOrder = function(){
 		$scope.cancel = !$scope.cancel;
-		$state.transitionTo('merchant.transaction', {arg : 'arg'});
+		$log.debug($scope.transactionId)
+		$http.post(
+			//url
+			phinisiEndpoint + '/cancel',
+			//data
+			{
+				order_id : $scope.transactionId, 
+			},
+			//config
+			{
+				headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+			})
+		.success(function(data,status,headers,config){
+			if(!data.success){
+				$scope.error = data.description;
+				$log.debug(data);
+				$log.debug("Cancel order fail");
+			}	
+			else{
+				$log.debug(data);
+				$log.debug("Cancel order success");
+				location.reload();
+			}
+
+		})
+		.error(function(data,status,headers,config){
+			$log.debug(data);
+			$scope.error = data.error;	
+		});
 	};
 }]);
 

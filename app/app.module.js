@@ -1,4 +1,4 @@
-var phinisiApp = angular.module('phinisiApp', ['routesApp', 'sessionApp', 'normalApp', 'ngClipboard']);
+var phinisiApp = angular.module('phinisiApp', ['routesApp', 'sessionApp', 'normalApp', 'angularUtils.directives.dirPagination']);
 
 
 

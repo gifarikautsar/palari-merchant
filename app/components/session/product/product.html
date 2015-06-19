@@ -1,45 +1,50 @@
-<!-- Details Unset -->
-<div class="content" ng-init="getProductList()" ng-show="!haveProduct">
-	<div class="inner-content">
-		<span class="subtitle">Product List</span>
+<div ng-show="load" class="loading-gif" ng-cloak></div>
+<div ng-show="!load" ng-cloak>
+	<!-- Details Unset -->
+	<div class="content" ng-init="getProductList()" ng-show="!haveProduct" ng-cloak>
+		<div class="inner-content">
+			<span class="subtitle">Product List</span>
+		</div>
+		<div class="inner-content">
+			<p class="text-label text-center">You haven't had any products yet. Please add one by clicking button below.</p>
+			<p class="text-center">
+				<a ui-sref="merchant.addProduct" class="btn-blue btn-primary">ADD PRODUCT</a>
+			</p>
+		</div>
 	</div>
-	<div class="inner-content">
-		<p class="text-label text-center">You haven't had any products yet. Please add one by clicking button below.</p>
-		<p class="text-center">
-			<a ui-sref="merchant.addProduct" class="btn-blue btn-primary">ADD PRODUCT</a>
-		</p>
-	</div>
-</div>
 
-<!-- Details Set -->
-<div class="content" ng-show="haveProduct">
-	<div class="inner-content vertical-align">
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
-			<div class="left-inner-addon">
-				<input type="text" class="form-control" ng-model="searchProduct" placeholder="Search Product">
-				<i class="glyphicon glyphicon-search" style="color: #000000"></i>
-			</div>
-		</div>
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
-			<a ui-sref="merchant.addProduct" class="btn-blue btn-primary pull-right">ADD PRODUCT</a>
-		</div>
-	</div>
-	<hr/>
-	<div ng-repeat="product in merchantProduct.merchant_product | orderBy: 'name' | filter : {name : searchProduct}">
-		<div class="inner-content auto-overflow">
+	<!-- Details Set -->
+	<div class="content" ng-show="haveProduct" ng-cloak>
+		<div class="inner-content vertical-align">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
-			<a ui-sref="merchant.productDetails({productId: '{{product.id}}'})">
-				<img src={{product.image_url[0]}} class="product-image" alt={{product.name}}></i>
-			</a>
+				<div class="left-inner-addon">
+					<input type="text" class="form-control" ng-model="searchProduct" placeholder="Search Product">
+					<i class="glyphicon glyphicon-search" style="color: #000000"></i>
+				</div>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
-				<a ui-sref="merchant.productDetails({productId: '{{product.id}}'})" class="product-name-label"><strong>{{product.name == '' ? 'N/A' : product.name }}
-				</strong></a>
-				<span class="product-price-label"><strong>{{product.price | mycurrency}}</strong></span>
-				<a ui-sref="merchant.editProduct({productId: '{{product.id}}'})" class="link-blue"><i class="fa fa-edit"></i> Edit</a>
+				<a ui-sref="merchant.addProduct" class="btn-blue btn-primary pull-right">ADD PRODUCT</a>
 			</div>
 		</div>
 		<hr/>
+		<div dir-paginate="product in merchantProduct.merchant_product | orderBy: 'name' | filter : {name : searchProduct} | itemsPerPage:5">
+			<div class="inner-content auto-overflow">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
+				<a ui-sref="merchant.productDetails({productId: '{{product.id}}'})">
+					<img src={{product.image_url[0]}} class="product-image" alt={{product.name}}></i>
+				</a>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
+					<a ui-sref="merchant.productDetails({productId: '{{product.id}}'})" class="product-name-label"><strong>{{product.name == '' ? 'N/A' : product.name }}
+					</strong></a>
+					<span class="product-price-label"><strong>{{product.price | mycurrency}}</strong></span>
+					<a ui-sref="merchant.editProduct({productId: '{{product.id}}'})" class="link-blue"><i class="fa fa-edit"></i> Edit</a>
+				</div>
+			</div>
+			<hr/>
+		</div>
+		<p class="text-right">
+			<dir-pagination-controls max-size="7"></dir-pagination-controls>
+		</p>
 	</div>
 </div>
-

@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" ng-init="getToken()">
 	<div class="inner-content auto-overflow">
 		<span class="subtitle"><strong>General Settings</strong></span>
 		<div class="form-group">
@@ -10,7 +10,7 @@
 				<span class="text-label">Password</span>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
-				<a ui-sref="" class="btn-dark-gray btn-primary pull-right">change password</a>
+				<a ui-sref="merchant.changePassword" class="btn-dark-gray btn-primary pull-right">change password</a>
 			</div>
 		</div>
 	</div>

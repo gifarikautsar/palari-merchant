@@ -1,5 +1,6 @@
 phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log', '$state',
 	function($scope, $http, $window, $log, $state){
+		$scope.load = true;
 		$scope.haveStore = false;
 		$scope.storeDetails = {
 			merchant_details: {}, 
@@ -105,6 +106,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		};
 
 		$scope.getStoreDetails = function(){
+			$scope.load = true;
 			$http.post(
 				//url
 				phinisiEndpoint + '/merchant/info',
@@ -130,6 +132,9 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				$log.debug(data);
 				$scope.error = data.error;				
 			});
+			setTimeout(function() {
+				$scope.load = false;
+			}, 50);
 		};
 
 		$scope.passingData = function(data){

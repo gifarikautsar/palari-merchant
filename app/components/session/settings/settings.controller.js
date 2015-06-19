@@ -57,8 +57,6 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 			
 
 		};
-
-		$scope.getToken();
 }]);
 
 phinisiApp.controller('changePasswordController', function($scope){

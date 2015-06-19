@@ -42,39 +42,49 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="inner-content" ng-show="shipping">
+	<div class="inner-content" ng-show="shipping" ng-cloak>
 		<table class="transaction-details-table">
 			<tr><th colspan="2">Shipping Information</th></tr>
 			<tr><td>Recipient's Name</td><td>{{transaction.transaction_customer_name}}</td></tr>
 			<tr><td>Recipient's Phone</td><td>{{transaction.transaction_customer_phone}}</td></tr>
 			<tr><td>Recipient's E-mail</td><td>{{transaction.transaction_customer_email}}</td></tr>
 			<tr><td>Address</td><td>{{transaction.shipping_address.address + ", " + transaction.shipping_address.city + ", " + transaction.shipping_address.postal_code}}</td></tr>
-			<tbody ng-show="trackingDone">
+			<tbody ng-show="trackingDone" ng-cloak>
 				<tr><td>Shipping Agency</td><td>{{transaction.transaction_courier_name}}</td></tr>
 				<tr><td>Tracking ID</td><td>{{transaction.transaction_tracking_id}}</td></tr>
 				<tr><td>Service Type</td><td>{{transaction.transaction_service_type}}</td></tr>
 				<tr><td>Shipping Cost</td><td>{{transaction.transaction_shipping_cost | mycurrency}}</td></tr>
 			</tbody>
 		</table>
+		<br/>
+		<div class="row" ng-show="!trackingDone && transaction.transaction_status != 'cancel' " ng-cloak>
+			<p class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+				<button class="btn-light-gray btn-primary" ng-click="cancleToggle()" ng-disabled="confirm || cancel">CANCEL ORDER</button>
+			</p>
+			<p class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+				<button class="btn-blue btn-primary" ng-click="confirmToggle()" ng-disabled="confirm || cancel">CONFIRM DELIVERY</button>
+			</p>
+		</div>
 	</div>
 
-	<div class="row" ng-show="!trackingDone && transaction.transaction_status != 'cancel' ">
+	<div class="row" ng-show="!shipping && transaction.transaction_status != 'cancel' " ng-cloak>
 		<p class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
 			<button class="btn-light-gray btn-primary" ng-click="cancleToggle()" ng-disabled="confirm || cancel">CANCEL ORDER</button>
 		</p>
 		<p class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-			<button class="btn-blue btn-primary" ng-click="confirmToggle()" ng-disabled="confirm || cancel">CONFIRM DELIVERY</button>
+			<button ui-sref="merchant.transaction" class="btn-blue btn-primary">  OK  </button>
 		</p>
 	</div>
+	
 
-	<div class="row" ng-show="trackingDone || transaction.transaction_status == 'cancel'">
+	<div class="row" ng-show="trackingDone || transaction.transaction_status == 'cancel'" ng-cloak>
 		<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
 			<button ui-sref="merchant.transaction" class="btn-light-gray btn-primary">  OK  </button>
 		</p>
 	</div>
 
 
-	<div class="dialog-box absolute-center text-center" ng-show="confirm">
+	<div class="dialog-box absolute-center text-center" ng-show="confirm" ng-cloak>
 		<div ng-show="paymentStatus()">
 			<span class="subtitle center-block" style="color: #FFFFFF"><strong>Confirm Delivery</strong></span>
 			<div ng-show="shipping">
@@ -82,7 +92,7 @@
 				<input type="text" class="form-control" ng-model="trackingId"><br/>
 			</div>
 
-			<div ng-show="!shipping">
+			<div ng-show="!shipping" ng-cloak>
 				<span class="text-label" style="color: #FFFFFF">Are you sure your product has been delivered to your customer?</span><br/>
 			</div>
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -93,7 +103,7 @@
 			</div>
 		</div>
 
-		<div ng-show="!paymentStatus()">
+		<div ng-show="!paymentStatus()" ng-cloak> 
 			<span class="subtitle center-block" style="color: #FFFFFF"><strong>Confirm Delivery</strong></span><br/>
 			<span class="text-label" style="color: #FFFFFF">Transaction is not yet complete.</span> <br/>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -102,7 +112,7 @@
 		</div>
 	</div>
 	
-	<div class="dialog-box absolute-center text-center" ng-show="cancel">
+	<div class="dialog-box absolute-center text-center" ng-show="cancel" ng-cloak>
 		<span class="subtitle center-block" style="color: #FFFFFF"><strong>Cancel Order</strong></span>
 		<span class="text-label" style="color: #FFFFFF">Are you sure you want to cancel the order?</span><br/>
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

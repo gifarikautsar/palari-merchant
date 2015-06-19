@@ -1,79 +1,82 @@
-<!-- Details Unset -->
-<div class="content" ng-show="!haveStore">
-	<div class="inner-content">
-		<span class="subtitle">Store Details</span>
-	</div>
-	<div class="inner-content">
-		<p class="text-label text-center">You haven't set any information details yet. Please set by clicking button below.</p>
-		<p class="text-center">
-			<button ui-sref="merchant.editDetails" class="btn-blue btn-primary">SET DETAILS</button>
-		</p>
-	</div>
-</div> 
+<div ng-show="load" class="loading-gif" ng-cloak></div>
+<div ng-show="!load" ng-cloak>
+	<!-- Details Unset -->
+	<div class="content" ng-init="getStoreDetails()" ng-show="!haveStore" ng-cloak>
+		<div class="inner-content">
+			<span class="subtitle">Store Details</span>
+		</div>
+		<div class="inner-content">
+			<p class="text-label text-center">You haven't set any information details yet. Please set by clicking button below.</p>
+			<p class="text-center">
+				<button ui-sref="merchant.editDetails" class="btn-blue btn-primary">SET DETAILS</button>
+			</p>
+		</div>
+	</div> 
 
-<div class="content" ng-init="getStoreDetails()" ng-show="haveStore">
-	<div class="inner-content">
-		<span class="subtitle">Store Details</span>
-		<a ui-sref="merchant.editDetails" class="link-blue pull-right">edit details <i class="fa fa-arrow-right"></i></a>
-	</div>
-	<div class="inner-content text-center">
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-wrapper">
-			<a ui-sref="merchant.product" span class="product-number-label green center-block">57</a>
-			<span class="product-info-label center-block">Product Sold</span>
+	<div class="content" ng-show="haveStore" ng-cloak>
+		<div class="inner-content">
+			<span class="subtitle">Store Details</span>
+			<a ui-sref="merchant.editDetails" class="link-blue pull-right">edit details <i class="fa fa-arrow-right"></i></a>
 		</div>
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-wrapper">
-			<a ui-sref="merchant.product" class="product-number-label orange center-block">24</a>
-			<span class="product-info-label center-block">Total Product</span>
-		</div>		
-	</div>
-	<div class="text-center">
-		<img src={{storeDetails.merchant_details.merchant_logo_url}} alt="Store Logo"></img>
-	</div>
-	<div class="inner-content">
-		<div class="details-group">
-			<span class="text-label"><strong>Store Name</strong></span>
-			<span class="text-label">{{storeDetails.merchant_details.merchant_name}}</span>
+		<div class="inner-content text-center">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-wrapper">
+				<a ui-sref="merchant.product" span class="product-number-label green center-block">57</a>
+				<span class="product-info-label center-block">Product Sold</span>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-wrapper">
+				<a ui-sref="merchant.product" class="product-number-label orange center-block">24</a>
+				<span class="product-info-label center-block">Total Product</span>
+			</div>		
 		</div>
-		<div class="details-group">
-			<span class="text-label"><strong>Phone Number</strong></span>
-			<span class="text-label">{{storeDetails.merchant_address.phone_number}}</span>
+		<div class="text-center">
+			<img src={{storeDetails.merchant_details.merchant_logo_url}} alt="Store Logo"></img>
 		</div>
-		<div class="details-group">
-			<span class="text-label"><strong>Store Address</strong></span>
-			<span class="text-label">{{storeDetails.merchant_address.address}}</span>
-			<span class="text-label">{{storeDetails.merchant_address.city}}</span>
-		</div>
-	</div>
-	<hr class="ng-hide"/>
-	<div class="inner-content ng-hide">
-		<span class="subtitle">Shipment Support</span>
-		<a ui-sref="merchant.editDetails" class="link-blue pull-right">edit preferences <i class="fa fa-arrow-right"></i></a>
-	</div>
-	<div class="inner-content text-center ng-hide">
-		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 content-wrapper">
-			<span class="shipping-logo jne-logo"></span>
-			<div class="shipping-package-wrapper">
-				<span class="text-label"><i class="fa fa-check"></i> Reguler</span>
-				<span class="text-label"><i class="fa fa-check"></i> OKE</span>
-				<span class="text-label"><i class="fa fa-check"></i> YES</span>
+		<div class="inner-content">
+			<div class="details-group">
+				<span class="text-label"><strong>Store Name</strong></span>
+				<span class="text-label">{{storeDetails.merchant_details.merchant_name}}</span>
+			</div>
+			<div class="details-group">
+				<span class="text-label"><strong>Phone Number</strong></span>
+				<span class="text-label">{{storeDetails.merchant_address.phone_number}}</span>
+			</div>
+			<div class="details-group">
+				<span class="text-label"><strong>Store Address</strong></span>
+				<span class="text-label">{{storeDetails.merchant_address.address}}</span>
+				<span class="text-label">{{storeDetails.merchant_address.city}}</span>
 			</div>
 		</div>
-		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 content-wrapper">
-			<span class="shipping-logo tiki-logo"></span>
-			<div class="shipping-package-wrapper">
-				<span class="text-label"><i class="fa fa-check"></i> Reguler</span>
-				<span class="text-label"><i class="fa fa-check"></i> OKE</span>
-				<span class="text-label"><i class="fa fa-check"></i> YES</span>
+		<hr class="ng-hide"/>
+		<div class="inner-content ng-hide">
+			<span class="subtitle">Shipment Support</span>
+			<a ui-sref="merchant.editDetails" class="link-blue pull-right">edit preferences <i class="fa fa-arrow-right"></i></a>
+		</div>
+		<div class="inner-content text-center ng-hide">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 content-wrapper">
+				<span class="shipping-logo jne-logo"></span>
+				<div class="shipping-package-wrapper">
+					<span class="text-label"><i class="fa fa-check"></i> Reguler</span>
+					<span class="text-label"><i class="fa fa-check"></i> OKE</span>
+					<span class="text-label"><i class="fa fa-check"></i> YES</span>
+				</div>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 content-wrapper">
+				<span class="shipping-logo tiki-logo"></span>
+				<div class="shipping-package-wrapper">
+					<span class="text-label"><i class="fa fa-check"></i> Reguler</span>
+					<span class="text-label"><i class="fa fa-check"></i> OKE</span>
+					<span class="text-label"><i class="fa fa-check"></i> YES</span>
+				</div>
+			</div>
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 content-wrapper">
+				<span class="shipping-logo posindo-logo"></span>
+				<div class="shipping-package-wrapper">
+					<span class="text-label"><i class="fa fa-check"></i> Reguler</span>
+					<span class="text-label"><i class="fa fa-check"></i> OKE</span>
+					<span class="text-label"><i class="fa fa-check"></i> YES</span>
+				</div>
 			</div>
 		</div>
-		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 content-wrapper">
-			<span class="shipping-logo posindo-logo"></span>
-			<div class="shipping-package-wrapper">
-				<span class="text-label"><i class="fa fa-check"></i> Reguler</span>
-				<span class="text-label"><i class="fa fa-check"></i> OKE</span>
-				<span class="text-label"><i class="fa fa-check"></i> YES</span>
-			</div>
-		</div>
-	</div>
 
+	</div>
 </div>

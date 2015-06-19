@@ -44,6 +44,17 @@
 	        </div>
 
 	        <div class="form-group">
+	          <span class="form-label">Limitless</span>
+	          <div class="right-inner-addon">
+	          	<select name="product_limitless" ng-model="productDetails.limitless">
+          			<option value="true">Yes</option>
+          			<option value="false">No</option>
+          		</select>
+          		<i class="glyphicon glyphicon-triangle-bottom border-left"></i>
+	          </div>
+	        </div>
+
+	        <div class="form-group" ng-hide="productDetails.limitless">
 	          <span class="form-label">Quantity</span>
 	          <div class="right-inner-addon">
 	            <input type="text" class="form-control" name="product_quantity" ng-model="productDetails.quantity" required validation-type="integer">
@@ -53,17 +64,6 @@
 	              <span class="error-message" ng-show="addProductForm.product_quantity.$error.required">Quantity is required.</span>
 	              <span class="error-message" ng-show="addProductForm.product_quantity.$error.integer">Price must be number.</span>
 	            </div>
-	          </div>
-	        </div>
-
-	        <div class="form-group">
-	          <span class="form-label">Limitless</span>
-	          <div class="right-inner-addon">
-	          	<select name="product_limitless" ng-model="productDetails.limitless">
-          			<option value="true">True</option>
-          			<option value="false">False</option>
-          		</select>
-          		<i class="glyphicon glyphicon-triangle-bottom border-left"></i>
 	          </div>
 	        </div>
 
