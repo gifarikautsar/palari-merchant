@@ -59,8 +59,40 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 		};
 }]);
 
-phinisiApp.controller('changePasswordController', function($scope){
-	$scope.currentPassword = '';
-	$scope.newPassword = '';
-	$scope.confirmNewPassword = '';
-})
+phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$http', '$log', '$state',
+	function($rootScope, $scope, $http, $log, $state){
+		$scope.currentPassword = '';
+		$scope.newPassword = '';
+		$scope.confirmNewPassword = '';
+
+		$scope.changePassword = function(){
+			if($scope.changePasswordForm.$valid){
+				$http.post(
+					//url
+					phinisiEndpoint + '/merchant/changepassword',
+					//data
+					{
+						old_password: $scope.currentPassword,
+						new_password: $scope.newPassword
+					},
+					//config
+					{
+						headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+					})
+				.success(function(data,status,headers,config){
+					$log.debug(data);
+					if(data.hasOwnProperty('result')){
+						$log.debug("Change password success");
+						$state.transitionTo('merchant.settings', {arg : 'arg'});	
+					}
+					else{
+						$scope.error = data.description;
+					}
+				})
+				.error(function(data,status,headers,config){
+					$log.debug(data);
+					$scope.error = data.error;				
+				});
+			}
+		};
+}]);

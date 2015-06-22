@@ -1,5 +1,5 @@
-phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log', '$state',
-	function($scope, $http, $window, $log, $state){
+phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log', '$state', 'cloudinary',
+	function($scope, $http, $window, $log, $state, cloudinary){
 		$scope.load = true;
 		$scope.haveStore = false;
 		$scope.storeDetails = {
