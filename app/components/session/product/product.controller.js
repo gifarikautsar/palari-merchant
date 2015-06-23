@@ -69,10 +69,6 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 			$log.debug($scope.productDetails.image);
 			$log.debug($scope.productDetails.weight);
 
-			if(!$scope.enableShipping){
-				$scope.productDetails.weight =0;
-			}
-
 			$http.post(
 				//url
 				phinisiEndpoint + '/merchant/product/new',
