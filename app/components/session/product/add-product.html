@@ -46,7 +46,7 @@
 	        <div class="form-group">
 	          <span class="form-label">Limitless</span>
 	          <div class="right-inner-addon">
-	          	<select name="product_limitless" ng-model="productDetails.limitless">
+	          	<select name="product_limitless" ng-model="productDetails.limitless" ng-change="quantityToggle()">
           			<option value="true">Yes</option>
           			<option value="false">No</option>
           		</select>
@@ -54,10 +54,10 @@
 	          </div>
 	        </div>
 
-	        <div class="form-group" ng-hide="productDetails.limitless">
+	        <div class="form-group" ng-hide="hideQuantity">
 	          <span class="form-label">Quantity</span>
 	          <div class="right-inner-addon">
-	            <input type="text" class="form-control" name="product_quantity" ng-model="productDetails.quantity" required validation-type="integer">
+	            <input type="text" class="form-control" name="product_quantity" ng-model="productDetails.quantity" ng-required="!hideQuantity" validation-type="integer">
 	            <div ng-show="addProductForm.$submitted || addProductForm.product_quantity.$touched">
 	              <i class="glyphicon glyphicon-ok" ng-show="addProductForm.product_quantity.$valid"></i>
 	              <i class="glyphicon glyphicon-remove" ng-show="!addProductForm.product_quantity.$valid"></i>

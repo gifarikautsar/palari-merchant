@@ -25,6 +25,9 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 					$log.debug("success save token");
 				}else{
 					$scope.error = data.description;
+					if(data.description=="Token is not valid"){
+						$state.transitionTo('login', {arg : 'arg'});
+					}
 				}
 			})
 			.error(function(data,status,headers,config){
@@ -52,7 +55,10 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 				$scope.tokenModel.production.client_key = data.production.client_key;				
 			})
 			.error(function(data){
-				$scope.error = data.description;				
+				$scope.error = data.description;
+				if(data.description=="Token is not valid"){
+					$state.transitionTo('login', {arg : 'arg'});
+				}				
 			});
 			
 
@@ -87,6 +93,9 @@ phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$htt
 					}
 					else{
 						$scope.error = data.description;
+						if(data.description=="Token is not valid"){
+							$state.transitionTo('login', {arg : 'arg'});
+						}
 					}
 				})
 				.error(function(data,status,headers,config){

@@ -1,5 +1,6 @@
 phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log', '$state', 'cloudinary',
 	function($scope, $http, $window, $log, $state, cloudinary){
+		$scope.uploading = false;
 		$scope.load = true;
 		$scope.haveStore = false;
 		$scope.storeDetails = {
@@ -25,22 +26,25 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 					},
 					//config
 					{
-						headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+						headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,
 					})
 				.success(function(data,status,headers,config){
 					if(data.success){
 						if(data.success){
-							$log.debug('Create store success!');	
-							$state.transitionTo('merchant.home', {arg : 'arg'});					
+							$log.debug('Create stor=e success!');
+							$state.transitionTo('merchant.home', {arg : 'arg'});
 						}else{
-							$scope.error = data.description;						
+							$scope.error = data.description;
+							if(data.description=="Token is not valid"){
+								$state.transitionTo('login', {arg : 'arg'});
+							}
 						}
 					}
-					$log.debug(data);			
+					$log.debug(data);
 				})
 				.error(function(data,status,headers,config){
 					$log.debug(data);
-					$scope.error = data.error;				
+					$scope.error = data.error;
 				});
 			}
 		};
@@ -50,10 +54,10 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			$scope.storeDetails.merchant_address.district_id = '',
 			$http.get(
 				//url
-				phinisiEndpoint + '/area/province',				
+				phinisiEndpoint + '/area/province',
 				//config
 				{
-					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,
 				}
 			)
 			.success(function(data){
@@ -62,7 +66,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				$log.debug("Get province list success");
 			})
 			.error(function(data){
-				$scope.error = data.description;				
+				$scope.error = data.description;
 			});
 		};
 
@@ -70,10 +74,10 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			$scope.storeDetails.merchant_address.district_id = '',
 			$http.get(
 				//url
-				phinisiEndpoint + '/area/city?parent=' + selectedProvince,				
+				phinisiEndpoint + '/area/city?parent=' + selectedProvince,
 				//config
 				{
-					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,
 				}
 			)
 			.success(function(data){
@@ -82,17 +86,17 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				$log.debug("Get city list success");
 			})
 			.error(function(data){
-				$scope.error = data.description;				
+				$scope.error = data.description;
 			});
 		};
 
 		$scope.getDistrictList = function (selectedCity){
 			$http.get(
 				//url
-				phinisiEndpoint + '/area/district?parent=' + selectedCity,				
+				phinisiEndpoint + '/area/district?parent=' + selectedCity,
 				//config
 				{
-					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,
 				}
 			)
 			.success(function(data){
@@ -101,7 +105,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				$log.debug("Get district list success");
 			})
 			.error(function(data){
-				$scope.error = data.description;				
+				$scope.error = data.description;
 			});
 		};
 
@@ -114,7 +118,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				{},
 				//config
 				{
-					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,
 				})
 			.success(function(data,status,headers,config){
 				if(data.hasOwnProperty('merchant_id')){
@@ -124,13 +128,16 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				}
 				else{
 					$scope.error = data.description;
-					$scope.haveStore = false;					
+					$scope.haveStore = false;
+					if(data.description=="Token is not valid"){
+						$state.transitionTo('login', {arg : 'arg'});
+					}
 				}
 				$log.debug(data);
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
-				$scope.error = data.error;				
+				$scope.error = data.error;
 			});
 			setTimeout(function() {
 				$scope.load = false;
@@ -144,5 +151,31 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			$scope.storeDetails.merchant_address.address = data.merchant_address;
 			$scope.storeDetails.merchant_address.phone_number = data.merchant_phone;
 			$scope.storeDetails.merchant_address.city = data.merchant_city;
-		}
-	}]);
+		};
+
+		$scope.upload = function (files) {
+			if(files && files.length){
+				$log.debug(files[0].type);
+				$scope.uploading = true;
+		        cloudinary.upload(files, {
+
+		        }).progress(function (evt) {
+                    // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                }).success(function (data, status, headers, config) {
+                    console.log('image url: ' + data.url);
+                    $scope.storeDetails.merchant_details.merchant_logo_url = data.url;
+                    $scope.uploading = false;
+                }).error(function(data,status,headers,config){
+                	$scope.uploading = false;
+				});;
+	        }
+    	};
+
+	}]).config(function (cloudinaryProvider) {
+	  	cloudinaryProvider.config({
+		    upload_endpoint: 'https://api.cloudinary.com/v1_1/', // default
+		    cloud_name: 'dwdaddxw9', // required
+		    upload_preset: 'ym6oc9j6', // optional
+		});
+	})

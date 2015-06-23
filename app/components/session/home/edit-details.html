@@ -20,15 +20,19 @@
 
 			<div class="form-group">
 	          	<span class="form-label">Store Logo</span>
-	          	<div class="preview-image-wrapper vertical-align text-center">
+	          	<div class="preview-image-wrapper vertical-align text-center" ng-show="storeDetails.merchant_details.merchant_logo_url==null">
 	          		<span class="text-label">PREVIEW LOGO</span>
 	          	</div>
+	          	<div class="text-center" ng-show="storeDetails.merchant_details.merchant_logo_url!=null">
+					<img src={{storeDetails.merchant_details.merchant_logo_url}} class="store-image" alt="Store Logo"></img>
+				</div>
 	          	<div class="row no-margin">
-		          	<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 no-padding">
+		          	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 no-padding">
 				        <span class="subdetails">Maximum file size 2 Megabytes<br/>Allowed extension .JPG, .JPEG, .PNG, .GIF</span>
 		        	</div>
-		        	<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 no-padding">
-						<button class="btn-dark-gray btn-primary pull-right"><small>BROWSE FILE</small></button>
+		        	<div class="col-xs-4 col-sm- col-md-4 col-lg-4 no-padding">
+						<button ngf-select ngf-change="upload($files)" ngf-accept="'image/*'" class="btn-dark-gray btn-primary pull-right"><small>BROWSE FILE</small></button>
+						<div ng-show="uploading" class="circle-loading-gif no-padding pull-right"></div>
 		        		<!-- <div class="btn-dark-gray btn-primary btn-upload pull-right" upload-button url="/upload" on-success="onSuccess(response)">Upload</div> -->
 		        	</div>
 	        	</div>
@@ -109,9 +113,8 @@
 		</div>
 	
 		<div class="center-block text-center">
-			<button type="submit" class="btn-blue btn-primary">SAVE CHANGES</button>
+			<button type="submit" class="btn-blue btn-primary" ng-disabled="uploading">SAVE CHANGES</button>
 		</div>
-
 	</form>
 
 </div>

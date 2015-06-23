@@ -18,7 +18,12 @@ sessionApp.controller('transactionController', ['$scope' , '$http' , '$log' , '$
 				})
 			.success(function(data,status,headers,config){
 				if(data.hasOwnProperty('success')){
-					$scope.error = data.description;
+					if(!data.success){
+						$scope.error = data.description;
+						if(data.description=="Token is not valid"){
+							$state.transitionTo('login', {arg : 'arg'});
+						}
+					}
 				}	
 				else{
 					$scope.transactions = data;
@@ -73,6 +78,9 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 				}	
 				else{
 					$scope.error = data.description;
+					if(data.description=="Token is not valid"){
+						$state.transitionTo('login', {arg : 'arg'});
+					}
 				}
 			})
 			.error(function(data,status,headers,config){
@@ -142,6 +150,9 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 					else{
 						$log.debug(data.description);
 						$scope.error = data.description;
+						if(data.description=="Token is not valid"){
+							$state.transitionTo('login', {arg : 'arg'});
+						}
 					}
 
 				})
@@ -171,6 +182,9 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 				$scope.error = data.description;
 				$log.debug(data);
 				$log.debug("Cancel order fail");
+				if(data.description=="Token is not valid"){
+					$state.transitionTo('login', {arg : 'arg'});
+				}
 			}	
 			else{
 				$log.debug(data);
