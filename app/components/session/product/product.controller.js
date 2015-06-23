@@ -1,4 +1,5 @@
-phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$window' , '$state', '$stateParams' , function($scope, $http, $log, $window, $state, $stateParams){
+phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$window' , '$state', '$stateParams', 'cloudinary' , function($scope, $http, $log, $window, $state, $stateParams, cloudinary){
+	$scope.uploading = false;
 	$scope.load = true;
 	$scope.haveProduct = false;
 	$scope.hideQuantity = false; 
@@ -6,10 +7,9 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 		name: '',
 		description: '',
 		price: '',
-		image: '',
+		image_url: [],
 		limitless: false,
 		weight: '0',
-		insurance: 'No',
 		need_address: false
 	}	
 	$scope.merchantProduct = {
@@ -49,6 +49,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 			}	
 			else{
 				$scope.error = data.description;
+				$log.debug($scope.merchantProduct);
 			}
 		})
 		.error(function(data,status,headers,config){
@@ -67,11 +68,9 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 			$log.debug($scope.productDetails.price);
 			$log.debug($scope.productDetails.image);
 			$log.debug($scope.productDetails.weight);
-			$log.debug($scope.productDetails.insurance);
 
 			if(!$scope.enableShipping){
 				$scope.productDetails.weight =0;
-				$scope.productDetails.insurance = 0;
 			}
 
 			$http.post(
@@ -100,10 +99,30 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 		}		
 	};
 
+	$scope.upload = function (files) {
+		if(files && files.length){
+			$log.debug(files[0].type);
+			$scope.uploading = true;
+	        cloudinary.upload(files, {
+
+	        }).progress(function (evt) {
+                // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+            }).success(function (data, status, headers, config) {
+                console.log('image url: ' + data.url);
+                $scope.productDetails.image_url.push(data.url);
+                $scope.uploading = false;
+            }).error(function(data,status,headers,config){
+            	$scope.uploading = false;
+			});;
+        }
+	};
+
 }]);
 
-phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' , '$state' , '$stateParams' , function($scope, $http, $log, $state, $stateParams){
+phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' , '$state' , '$stateParams', 'cloudinary' , function($scope, $http, $log, $state, $stateParams, cloudinary){
 	$scope.productDetails = {};
+	$scope.uploading = false;
 	$scope.deletePopUp = false;
 	$scope.showURL = false;
 	$scope.choosenProduct = $stateParams.productId;
@@ -139,9 +158,6 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 				$log.debug("Get product details success");
 				if(!$scope.productDetails.hasOwnProperty('weight')){
 					$scope.productDetails.weight = 0;
-				}
-				if(!$scope.productDetails.hasOwnProperty('insurance')){
-					$scope.productDetails.insurance = 'No';
 				}
 				$scope.hideQuantity = $scope.productDetails.limitless;
 			}
@@ -203,6 +219,27 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 			});	
 		}
 	};
+
+	$scope.upload = function (files) {
+		if(files && files.length){
+			$log.debug(files[0].type);
+			$scope.uploading = true;
+	        cloudinary.upload(files, {
+
+	        }).progress(function (evt) {
+                // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+            }).success(function (data, status, headers, config) {
+                console.log('image url: ' + data.url);
+                $scope.productDetails.image_url = [];
+                $scope.productDetails.image_url.push(data.url);
+                $scope.uploading = false;
+            }).error(function(data,status,headers,config){
+            	$scope.uploading = false;
+			});;
+        }
+	};
+
 }]);
 
 	
