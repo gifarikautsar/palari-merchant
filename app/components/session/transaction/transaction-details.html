@@ -1,125 +1,111 @@
-<div class="content" ng-init="getTransactionDetails()">
-	<div class="inner-content">
-		<span class="col-xs-6 col-sm-6 col-md-6 col-lg-6 subtitle"><strong>Transaction Details</strong></span>
-		<a ui-sref="merchant.transaction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 link-blue text-right" ng-disabled="confirm || cancel"><i class="fa fa-arrow-left"></i> Back</a>
-	</div>
-	<br/>
-	<br/>
-	<div class="inner-content">
-		<div class="center-block auto-overflow">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<span class="text-label-center"><strong>Order ID</strong></span>
-				<span class="text-label-center">{{transaction.order_id}}</span>
-			</div>
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<span class="text-label-center"><strong>Amount</strong></span>
-				<span class="text-label-center">{{totalAmount() | mycurrency}}</span>
-			</div>
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<span class="text-label-center"><strong>Status</strong></span>
-				<span class="text-label-center">{{transaction.transaction_status}}</span>
-			</div>
-		</div>		
-	</div>
-	
-	<div class="inner-content">
-		<table class="transaction-details-table">
-			<tr><th colspan="2">Customer Information</th></tr>
-			<tr><td>Name</td><td>{{transaction.transaction_customer_name}}</td></tr>
-			<tr><td>Phone</td><td>{{transaction.transaction_customer_phone}}</td></tr>
-			<tr><td>Email</td><td>{{transaction.transaction_customer_email}}</td></tr>
-		</table>
-	</div>
-	<div class="inner-content">	
-		<table class="transaction-details-table">
-			<thead>
-				<th colspan="2">Purchase Details</th>
-			</thead>
-			<tbody ng-repeat="detail in transaction.transaction_detail">
-				<tr><td>Product Name</td><td><a ui-sref="merchant.productDetails({productId: '{{detail.item_id}}'})">{{detail.item_name}}</a></td></tr>
-				<tr><td>Price</td><td>{{detail.item_price | mycurrency}}</td></tr>
-				<tr><td>Quantity</td><td>{{detail.item_quantity}}</td></tr>
-			</tbody>
-		</table>
-	</div>
-	<div class="inner-content" ng-show="shipping" ng-cloak>
-		<table class="transaction-details-table">
-			<tr><th colspan="2">Shipping Information</th></tr>
-			<tr><td>Recipient's Name</td><td>{{transaction.transaction_customer_name}}</td></tr>
-			<tr><td>Recipient's Phone</td><td>{{transaction.transaction_customer_phone}}</td></tr>
-			<tr><td>Recipient's E-mail</td><td>{{transaction.transaction_customer_email}}</td></tr>
-			<tr><td>Address</td><td>{{transaction.shipping_address.address + ", " + transaction.shipping_address.city + ", " + transaction.shipping_address.postal_code}}</td></tr>
-			<tbody ng-show="trackingDone" ng-cloak>
-				<tr><td>Shipping Agency</td><td>{{transaction.transaction_courier_name}}</td></tr>
-				<tr><td>Tracking ID</td><td>{{transaction.transaction_tracking_id}}</td></tr>
-				<tr><td>Service Type</td><td>{{transaction.transaction_service_type}}</td></tr>
-				<tr><td>Shipping Cost</td><td>{{transaction.transaction_shipping_cost | mycurrency}}</td></tr>
-			</tbody>
-		</table>
+<div ng-show="load" class="loading-gif"></div>
+<div ng-show="!load && !backToList">
+	<div class="content" ng-init="getTransactionDetails()">
+		<div class="inner-content">
+			<span class="col-xs-6 col-sm-6 col-md-6 col-lg-6 subtitle"><strong>Transaction Details</strong></span>
+			<a ui-sref="merchant.transaction" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 link-blue text-right" ng-disabled="confirm"><i class="fa fa-arrow-left"></i> Back</a>
+		</div>
 		<br/>
-		<div class="row" ng-show="!trackingDone && transaction.transaction_status != 'cancel' " ng-cloak>
-			<p class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-				<button class="btn-light-gray btn-primary" ng-click="cancleToggle()" ng-disabled="confirm || cancel">CANCEL ORDER</button>
+		<br/>
+		<div class="inner-content">
+			<div class="center-block auto-overflow">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<span class="text-label-center"><strong>Order ID</strong></span>
+					<span class="text-label-center">{{transaction.order_id}}</span>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<span class="text-label-center"><strong>Amount</strong></span>
+					<span class="text-label-center">{{totalAmount() | mycurrency}}</span>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<span class="text-label-center"><strong>Status</strong></span>
+					<span class="text-label-center">{{transaction.transaction_status}}</span>
+				</div>
+			</div>		
+		</div>
+		
+		<div class="inner-content">
+			<table class="transaction-details-table">
+				<tr><th colspan="2">Customer Information</th></tr>
+				<tr><td>Name</td><td>{{transaction.transaction_customer_name}}</td></tr>
+				<tr><td>Phone</td><td>{{transaction.transaction_customer_phone}}</td></tr>
+				<tr><td>Email</td><td>{{transaction.transaction_customer_email}}</td></tr>
+			</table>
+		</div>
+		<div class="inner-content">	
+			<table class="transaction-details-table">
+				<thead>
+					<th colspan="2">Purchase Details</th>
+				</thead>
+				<tbody ng-repeat="detail in transaction.transaction_detail">
+					<tr><td>Product Name</td><td><a ui-sref="merchant.productDetails({productId: '{{detail.item_id}}'})">{{detail.item_name}}</a></td></tr>
+					<tr><td>Price</td><td>{{detail.item_price | mycurrency}}</td></tr>
+					<tr><td>Quantity</td><td>{{detail.item_quantity}}</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="inner-content" ng-show="shipping" ng-cloak>
+			<table class="transaction-details-table">
+				<tr><th colspan="2">Shipping Information</th></tr>
+				<tr><td>Recipient's Name</td><td>{{transaction.transaction_customer_name}}</td></tr>
+				<tr><td>Recipient's Phone</td><td>{{transaction.transaction_customer_phone}}</td></tr>
+				<tr><td>Recipient's E-mail</td><td>{{transaction.transaction_customer_email}}</td></tr>
+				<tr><td>Address</td><td>{{transaction.shipping_address.address + ", " + transaction.shipping_address.city + ", " + transaction.shipping_address.postal_code}}</td></tr>
+				<tbody ng-show="trackingDone" ng-cloak>
+					<tr><td>Shipping Agency</td><td>{{transaction.transaction_courier_name}}</td></tr>
+					<tr><td>Tracking ID</td><td>{{transaction.transaction_tracking_id}}</td></tr>
+					<tr><td>Service Type</td><td>{{transaction.transaction_service_type}}</td></tr>
+					<tr><td>Shipping Cost</td><td>{{transaction.transaction_shipping_cost | mycurrency}}</td></tr>
+				</tbody>
+			</table>
+			<br/>
+			<div class="row" ng-show="!trackingDone" ng-cloak>
+				<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+					<button class="btn-blue btn-primary" ng-click="confirmToggle()" ng-disabled="confirm">CONFIRM DELIVERY</button>
+				</p>
+			</div>
+		</div>
+
+		<div class="row" ng-show="!shipping" ng-cloak>
+			<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+				<button ui-sref="merchant.transaction" class="btn-blue btn-primary">  OK  </button>
 			</p>
-			<p class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-				<button class="btn-blue btn-primary" ng-click="confirmToggle()" ng-disabled="confirm || cancel">CONFIRM DELIVERY</button>
-			</p>
-		</div>
-	</div>
-
-	<div class="row" ng-show="!shipping && transaction.transaction_status != 'cancel' " ng-cloak>
-		<p class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-			<button class="btn-light-gray btn-primary" ng-click="cancleToggle()" ng-disabled="confirm || cancel">CANCEL ORDER</button>
-		</p>
-		<p class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-			<button ui-sref="merchant.transaction" class="btn-blue btn-primary">  OK  </button>
-		</p>
-	</div>
-	
-
-	<div class="row" ng-show="trackingDone || transaction.transaction_status == 'cancel'" ng-cloak>
-		<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-			<button ui-sref="merchant.transaction" class="btn-light-gray btn-primary">  OK  </button>
-		</p>
-	</div>
-
-
-	<div class="dialog-box absolute-center text-center" ng-show="confirm" ng-cloak>
-		<div ng-show="paymentStatus()">
-			<span class="subtitle center-block" style="color: #FFFFFF"><strong>Confirm Delivery</strong></span>
-			<div ng-show="shipping">
-				<span class="text-label" style="color: #FFFFFF">Please enter your tracking id below</span>
-				<input type="text" class="form-control" ng-model="trackingId"><br/>
-			</div>
-
-			<div ng-show="!shipping" ng-cloak>
-				<span class="text-label" style="color: #FFFFFF">Are you sure your product has been delivered to your customer?</span><br/>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="confirmToggle()">CANCEL</button>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<button class="btn-orange btn-primary pull-right" style="width: 100% !important" ng-click="confirmOrder()">CONFIRM</button>
-			</div>
 		</div>
 
-		<div ng-show="!paymentStatus()" ng-cloak> 
-			<span class="subtitle center-block" style="color: #FFFFFF"><strong>Confirm Delivery</strong></span><br/>
-			<span class="text-label" style="color: #FFFFFF">Transaction is not yet complete.</span> <br/>
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<button class="btn-orange btn-primary pull-right" style="width: 100% !important" ng-click="confirmToggle()">OK</button>
+		<div class="dialog-box absolute-center text-center" ng-show="confirm" ng-cloak>
+			<div ng-show="paymentStatus()">
+				<span class="subtitle center-block" style="color: #FFFFFF"><strong>Confirm Delivery</strong></span>
+				<div ng-show="shipping">
+					<span class="text-label" style="color: #FFFFFF">Please enter your tracking id below</span>
+					<input type="text" class="form-control" ng-model="trackingId"><br/>
+				</div>
+
+				<div ng-show="!shipping" ng-cloak>
+					<span class="text-label" style="color: #FFFFFF">Are you sure your product has been delivered to your customer?</span><br/>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="confirmToggle()">CANCEL</button>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<button class="btn-orange btn-primary pull-right" style="width: 100% !important" ng-click="confirmOrder()">CONFIRM</button>
+				</div>
+			</div>
+
+			<div ng-show="!paymentStatus()" ng-cloak> 
+				<span class="subtitle center-block" style="color: #FFFFFF"><strong>Confirm Delivery</strong></span><br/>
+				<span class="text-label" style="color: #FFFFFF">Transaction is not yet complete.</span> <br/>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<button class="btn-orange btn-primary pull-right" style="width: 100% !important" ng-click="confirmToggle()">OK</button>
+				</div>
 			</div>
 		</div>
 	</div>
-	
-	<div class="dialog-box absolute-center text-center" ng-show="cancel" ng-cloak>
-		<span class="subtitle center-block" style="color: #FFFFFF"><strong>Cancel Order</strong></span>
-		<span class="text-label" style="color: #FFFFFF">Are you sure you want to cancel the order?</span><br/>
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="cancleToggle()">NO</button>
-		</div>
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<button class="btn-orange btn-primary pull-right" style="width: 100% !important" ng-click="cancelOrder()">YES</button>
-		</div>
+</div>
+
+<div class="little-dialog-box absolute-center text-center" ng-show="fail.status" ng-cloak>
+	<span class="subtitle center-block" style="color: #FFFFFF"><strong>Fail</strong></span>
+	<span class="text-label" style="color: #FFFFFF">{{fail.description}}</span><br/>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="hideFail()">OK</button>
 	</div>
 </div>

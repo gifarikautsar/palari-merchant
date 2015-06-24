@@ -10,7 +10,17 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		$scope.provinces = {};
 		$scope.cities = {};
 		$scope.districts = {};
+		$scope.fail = {
+			status: false,
+			description: '',
+		};
+		$scope.totalProduct = 0;
 
+		$scope.hideFail = function(){
+			$scope.fail.status = false;
+			$scope.fail.description = '';
+		};
+		
 		$scope.submit = function(){
 			if($scope.editDetailsForm.$valid){
 				//get store details from model
@@ -31,12 +41,21 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				.success(function(data,status,headers,config){
 					if(data.success){
 						if(data.success){
-							$log.debug('Create stor=e success!');
+							$log.debug('Create store success!');
 							$state.transitionTo('merchant.home', {arg : 'arg'});
 						}else{
 							$scope.error = data.description;
 							if(data.description=="Token is not valid"){
 								$state.transitionTo('login', {arg : 'arg'});
+							}
+							else{
+								$scope.fail.status = true;
+								if(data.description == null){
+									$scope.fail.description = 'Add store details fail';
+								}
+								else{
+									$scope.fail.description = data.description;
+								}
 							}
 						}
 					}
@@ -70,11 +89,11 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			});
 		};
 
-		$scope.getCityList = function (selectedProvince){
+		$scope.getCityList = function (){
 			$scope.storeDetails.merchant_address.district_id = '',
 			$http.get(
 				//url
-				phinisiEndpoint + '/area/city?parent=' + selectedProvince,
+				phinisiEndpoint + '/area/city?parent=' + $scope.storeDetails.merchant_address.province_id,
 				//config
 				{
 					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,
@@ -90,10 +109,10 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			});
 		};
 
-		$scope.getDistrictList = function (selectedCity){
+		$scope.getDistrictList = function (){
 			$http.get(
 				//url
-				phinisiEndpoint + '/area/district?parent=' + selectedCity,
+				phinisiEndpoint + '/area/district?parent=' + $scope.storeDetails.merchant_address.city_id,
 				//config
 				{
 					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,
@@ -123,14 +142,18 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			.success(function(data,status,headers,config){
 				if(data.hasOwnProperty('merchant_id')){
 					$scope.passingData(data);
+					$scope.getProductList();
 					$scope.haveStore = true;
 					$log.debug('Get store details  success!');	
 				}
 				else{
-					$scope.error = data.description;
 					$scope.haveStore = false;
+					$scope.error = data.description;
 					if(data.description=="Token is not valid"){
 						$state.transitionTo('login', {arg : 'arg'});
+					}
+					else{
+						$scope.getProvinceList();
 					}
 				}
 				$log.debug(data);
@@ -147,10 +170,23 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		$scope.passingData = function(data){
 			$scope.storeDetails.merchant_details.merchant_name = data.merchant_name;
 			$scope.storeDetails.merchant_details.merchant_logo_url = data.merchant_url;
-			$scope.storeDetails.merchant_address.city_id = data.merchant_city_id;
 			$scope.storeDetails.merchant_address.address = data.merchant_address;
 			$scope.storeDetails.merchant_address.phone_number = data.merchant_phone;
 			$scope.storeDetails.merchant_address.city = data.merchant_city;
+			$scope.getProvinceList();
+			$scope.storeDetails.merchant_address.province_id = $scope.getProvinceId(data.merchant_city_id);
+			$scope.getCityList();
+			$scope.storeDetails.merchant_address.city_id = data.merchant_city_id;
+			$scope.getDistrictList();
+
+		};
+		$scope.getProvinceId = function(cityId){
+			provinceId = cityId;
+			while(provinceId >= 100){
+				provinceId = provinceId/10;
+			};
+			//$log.debug("province id: " + provinceId);
+			return Math.floor(provinceId);
 		};
 
 		$scope.upload = function (files) {
@@ -171,6 +207,35 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				});;
 	        }
     	};
+
+    	$scope.getProductList = function(){
+		$log.debug($window.sessionStorage.token);
+		$http.post(
+			//url
+			phinisiEndpoint + '/merchant/product',
+			//data
+			{
+			},
+			//config
+			{
+				headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+			})
+		.success(function(data,status,headers,config){
+			if(data.hasOwnProperty('merchant_id')){
+				$scope.totalProduct = data.merchant_product.length; 
+			}	
+			else{
+				$scope.error = data.description;
+				if(data.description=="Token is not valid"){
+					$state.transitionTo('login', {arg : 'arg'});
+				}
+			}
+		})
+		.error(function(data,status,headers,config){
+			$log.debug(data);
+			$scope.error = data.error;				
+		});
+	};
 
 	}]).config(function (cloudinaryProvider) {
 	  	cloudinaryProvider.config({

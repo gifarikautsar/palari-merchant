@@ -3,6 +3,15 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 		$scope.tokenModel = {};
 		$scope.tokenModel.sandbox = {};
 		$scope.tokenModel.production = {};		
+		$scope.fail = {
+			status: false,
+			description: '',
+		};
+
+		$scope.hideFail = function(){
+			$scope.fail.status = false;
+			$scope.fail.description = '';
+		};
 
 		$scope.saveToken = function(){
 			$log.debug($scope.tokenModel.sandbox.server_key);
@@ -37,7 +46,6 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 		};
 
 		$scope.getToken = function(){
-
 			$http.get(
 				//url
 				phinisiEndpoint + '/merchant/key/' + $window.sessionStorage.token,				
@@ -58,7 +66,7 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 				$scope.error = data.description;
 				if(data.description=="Token is not valid"){
 					$state.transitionTo('login', {arg : 'arg'});
-				}				
+				}			
 			});
 			
 
@@ -70,9 +78,18 @@ phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$htt
 		$scope.currentPassword = '';
 		$scope.newPassword = '';
 		$scope.confirmNewPassword = '';
+		$scope.fail = {
+			status: false,
+			description: '',
+		};
+
+		$scope.hideFail = function(){
+			$scope.fail.status = false;
+			$scope.fail.description = '';
+		};
 
 		$scope.changePassword = function(){
-			if($scope.changePasswordForm.$valid){
+			if($scope.changePasswordForm.$valid && $scope.newPassword == $scope.confirmNewPassword){
 				$http.post(
 					//url
 					phinisiEndpoint + '/merchant/changepassword',
@@ -95,6 +112,15 @@ phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$htt
 						$scope.error = data.description;
 						if(data.description=="Token is not valid"){
 							$state.transitionTo('login', {arg : 'arg'});
+						}
+						else{
+							$scope.fail.status = true;
+							if(data.description == null){
+								$scope.fail.description = 'Change password fail';
+							}
+							else{
+								$scope.fail.description = data.description;
+							}
 						}
 					}
 				})

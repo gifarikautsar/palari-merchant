@@ -1,7 +1,7 @@
-<div ng-show="load" class="loading-gif" ng-cloak></div>
-<div ng-show="!load" ng-cloak>
+<div ng-show="load" class="loading-gif"></div>
+<div ng-show="!load">
 	<!-- Details Unset -->
-	<div class="content" ng-init="getTransactionList()" ng-show="!haveTransaction" ng-cloak>
+	<div class="content" ng-init="getTransactionList()" ng-show="!haveTransaction">
 		<div class="inner-content">
 			<span class="subtitle">Transaction List</span>
 		</div>
@@ -11,7 +11,7 @@
 	</div>
 
 	<!-- Details Set -->
-	<div class="content" ng-show="haveTransaction" ng-cloak>
+	<div class="content" ng-show="haveTransaction">
 		<div class="inner-content vertical-align">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 no-padding">
 				<div class="left-inner-addon">

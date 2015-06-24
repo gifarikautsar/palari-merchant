@@ -1,69 +1,80 @@
-<div class="content" ng-init="getProductDetails()">
-	<div class="inner-content">
-		<span class="col-xs-6 col-sm-6 col-md-6 col-lg-6 subtitle"><strong>Product Details</strong></span>
-		<a ui-sref="merchant.product" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 link-blue text-right"><i class="fa fa-arrow-left"></i> Back</a>	
-	</div>
-	<br/><br/>
-	<div class="inner-content center-block text-center" ng-show="productDetails.environment_type=='DEVELOPMENT'">
-		<span class="product-price-label"><strong>This product is on development mode.</strong></span>
-	</div>
-	<div class="inner-content">
-		<div class="center-block text-center">
-			<img src="{{productDetails.image_url[0]}}" class="product-image" style="width: 80% !important"></i>
+<div ng-show="load" class="loading-gif"></div>
+<div ng-show="!load && !backToList">
+	<div class="content" ng-init="getProductDetails()">
+		<div class="inner-content">
+			<span class="col-xs-6 col-sm-6 col-md-6 col-lg-6 subtitle"><strong>Product Details</strong></span>
+			<a ui-sref="merchant.product" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 link-blue text-right"><i class="fa fa-arrow-left"></i> Back</a>	
 		</div>
-	</div>
-	<div class="inner-content">
-		<div class="center-block auto-overflow">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<a ui-sref="merchant.editProduct({productId: '{{choosenProduct}}'})" class="link-blue pull-left"><center><i class="fa fa-edit"></i> Edit</center></a>
-			</div>
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<a class="link-blue" ng-click="urlToggle()"><center><i class="fa fa-copy"></i> Copy Link</center></a>
-				<input type="text" class="form-control" ng-model="productURL" ng-show="showURL">
-			</div>
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-				<a class="link-blue pull-right" ng-click="deleteToggle()"><center><i class="fa fa-trash"></i> Delete</center></a>		
-			</div>
-		</div>		
-		<div style="margin: 10px 0px;">
+		<br/>
+		<div class="inner-content center-block text-center" ng-show="productDetails.environment_type=='DEVELOPMENT'">
+			<span class="product-price-label"><strong>This product is on development mode.</strong></span>
+		</div>
+		<div class="inner-content">
 			<div class="center-block text-center">
-				<span class="product-name-label"><strong>{{productDetails.name}}</strong></span>
-			</div>				
-			<div class="center-block text-center">
-				<span class="product-price-label">{{productDetails.price | mycurrency}}</span>
+				<img src="{{productDetails.image_url[0]}}" class="product-image" style="width: 80% !important"></i>
 			</div>
-			<div class="center-block text-center">
-				<span class="product-description">{{productDetails.description}}</span>
+		</div>
+		<div class="inner-content">
+			<div class="center-block auto-overflow">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<a ui-sref="merchant.editProduct({productId: '{{choosenProduct}}'})" class="link-blue pull-left"><center><i class="fa fa-edit"></i> Edit</center></a>
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<a class="link-blue" ng-click="urlToggle()"><center><i class="fa fa-copy"></i> Copy Link</center></a>
+					<input type="text" class="form-control" ng-model="productURL" ng-show="showURL">
+				</div>
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					<a class="link-blue pull-right" ng-click="deleteToggle()"><center><i class="fa fa-trash"></i> Delete</center></a>		
+				</div>
+			</div>		
+			<div style="margin: 10px 0px;">
+				<div class="center-block text-center">
+					<span class="product-name-label"><strong>{{productDetails.name}}</strong></span>
+				</div>				
+				<div class="center-block text-center">
+					<span class="product-price-label">{{productDetails.price | mycurrency}}</span>
+				</div>
+				<div class="center-block text-center">
+					<span class="product-description">{{productDetails.description}}</span>
+				</div>
+			</div>
+
+			<div class="product-details-wrapper">
+				<table class="product-details-table">
+					<tbody>
+						<tr class="product-details-row">
+							<td><i class="fa fa-list-alt"></i> Quantity</td>
+							<td>{{productDetails.limitless ? '∞' : productDetails.quantity}}</td>
+						</tr>
+					</tbody>
+					<tbody ng-show="productDetails.need_address">
+						<tr class="product-details-row">
+							<td><i class="fa fa-briefcase"></i> Weight</td>
+							<td>{{productDetails.weight}}</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 
-		<div class="product-details-wrapper">
-			<table class="product-details-table">
-				<tbody>
-					<tr class="product-details-row">
-						<td><i class="fa fa-list-alt"></i> Quantity</td>
-						<td>{{productDetails.limitless ? '∞' : productDetails.quantity}}</td>
-					</tr>
-				</tbody>
-				<tbody ng-show="productDetails.need_address">
-					<tr class="product-details-row">
-						<td><i class="fa fa-briefcase"></i> Weight</td>
-						<td>{{productDetails.weight}}</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="dialog-box absolute-center text-center" ng-show="deletePopUp">
+			<span class="subtitle center-block" style="color: #FFFFFF"><strong>Product Details</strong></span>
+			<span class="text-label" style="color: #FFFFFF">Are you sure want to delete this product?</span><br/>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="deleteToggle()">NO</button>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<button class="btn-orange btn-primary pull-right" style="width: 100% !important" ng-click="deleteProduct()">YES</button>
+			</div>
 		</div>
-	</div>
 
-	<div class="dialog-box absolute-center text-center" ng-show="deletePopUp">
-		<span class="subtitle center-block" style="color: #FFFFFF"><strong>Product Details</strong></span>
-		<span class="text-label" style="color: #FFFFFF">Are you sure want to delete this product?</span><br/>
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="deleteToggle()">NO</button>
-		</div>
-		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<button class="btn-orange btn-primary pull-right" style="width: 100% !important" ng-click="deleteProduct()">YES</button>
-		</div>
 	</div>
+</div>
 
+<div class="little-dialog-box absolute-center text-center" ng-show="fail.status" ng-cloak>
+	<span class="subtitle center-block" style="color: #FFFFFF"><strong>Fail</strong></span>
+	<span class="text-label" style="color: #FFFFFF">{{fail.description}}</span><br/>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="hideFail()">OK</button>
+	</div>
 </div>

@@ -49,15 +49,21 @@ sessionApp.controller('transactionController', ['$scope' , '$http' , '$log' , '$
 
 sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$log' , '$window' , '$state' ,'$stateParams' , 
 	function($scope, $http, $log, $window, $state, $stateParams){
+		$scope.fail = {
+			status: false,
+			description: '',
+		};
+		$scope.load = true;
 		$scope.transactionId = $stateParams.transactionId;
 		$scope.shipping = false;
 		$scope.transaction = '';
 		$scope.confirm = false;
-		$scope.cancel = false;
 		$scope.trackingId = null;
 		$scope.trackingDone = false;
+		$scope.backToList = false;
 
 		$scope.getTransactionDetails = function(){
+			$scope.load = true;
 			$http.post(
 				//url
 				phinisiEndpoint + '/merchant/transaction/detail',
@@ -81,13 +87,33 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 					if(data.description=="Token is not valid"){
 						$state.transitionTo('login', {arg : 'arg'});
 					}
+					else{
+						$scope.fail.status = true;
+						if(data.description == null){
+							$scope.fail.description = 'Get transaction details fail';
+						}
+						else{
+							$scope.fail.description = data.description;
+						}
+						$scope.backToList = true;
+					}
 				}
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
 				$scope.error = data.error;				
 			});
+			setTimeout(function() {
+				$scope.load = false;
+			}, 50);
+		};
 
+		$scope.hideFail = function(){
+			$scope.fail.status = false;
+			$scope.fail.description = '';
+			if($scope.backToList){
+				$state.transitionTo('merchant.transaction', {arg : 'arg'});
+			}
 		};
 
 		$scope.initShipping = function(data){
@@ -122,10 +148,6 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 			$scope.confirm = !$scope.confirm;
 		};
 
-		$scope.cancleToggle = function(){
-			$scope.cancel = !$scope.cancel;
-		};
-
 		$scope.confirmOrder = function(){
 			$scope.confirm = !$scope.confirm;
 			if($scope.shipping){
@@ -153,6 +175,15 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 						if(data.description=="Token is not valid"){
 							$state.transitionTo('login', {arg : 'arg'});
 						}
+						else{
+							$scope.fail.status = true;
+							if(data.description == null){
+								$scope.fail.description = 'Confirm order fail';
+							}
+							else{
+								$scope.fail.description = data.description;
+							}
+						}
 					}
 
 				})
@@ -162,42 +193,6 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 				});
 			}
 		};
-
-	$scope.cancelOrder = function(){
-		$scope.cancel = !$scope.cancel;
-		$log.debug($scope.transactionId)
-		$http.post(
-			//url
-			phinisiEndpoint + '/cancel',
-			//data
-			{
-				order_id : $scope.transactionId, 
-			},
-			//config
-			{
-				headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
-			})
-		.success(function(data,status,headers,config){
-			if(!data.success){
-				$scope.error = data.description;
-				$log.debug(data);
-				$log.debug("Cancel order fail");
-				if(data.description=="Token is not valid"){
-					$state.transitionTo('login', {arg : 'arg'});
-				}
-			}	
-			else{
-				$log.debug(data);
-				$log.debug("Cancel order success");
-				location.reload();
-			}
-
-		})
-		.error(function(data,status,headers,config){
-			$log.debug(data);
-			$scope.error = data.error;	
-		});
-	};
 }]);
 
 	

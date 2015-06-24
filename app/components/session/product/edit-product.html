@@ -104,14 +104,14 @@
 				<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 no-padding">
 		            <div class="right-inner-addon">
                       <div class="input-group">
-                        <input type="text" class="form-control" name="product_weight" maxlength="11" ng-model="productDetails.weight" ng-disabled="!productDetails.need_address" validation-type="decimal" required>
+                        <input type="text" class="form-control" name="product_weight" maxlength="11" ng-model="productDetails.weight" ng-disabled="!productDetails.need_address" validation-type="natural_number" required>
                       	<span class="input-group-addon" id="basic-addon1">gram</span>
                       </div>
-                      <div ng-show="form.$submitted || editProductForm.product_weight.$touched">
-                        <i class="glyphicon glyphicon-ok" ng-show="editProductForm.product_weight.$valid" style="right: 55px"></i>
-                        <i class="glyphicon glyphicon-remove" ng-show="!editProductForm.product_weight.$valid" style="right: 55px"></i>
-                        <span class="error-message" ng-show="editProductForm.product_weight.$error.required">Weight is required.</span>
-                        <span class="error-message" ng-show="editProductForm.product_weight.$error.decimal">Weight must be integer or decimal.</span>
+                      <div ng-show="form.$submitted || addProductForm.product_weight.$touched">
+                        <i class="glyphicon glyphicon-ok" ng-show="addProductForm.product_weight.$valid" style="right: 55px"></i>
+                        <i class="glyphicon glyphicon-remove" ng-show="!addProductForm.product_weight.$valid" style="right: 55px"></i>
+                        <span class="error-message" ng-show="addProductForm.product_weight.$error.required">Weight is required.</span>
+                        <span class="error-message" ng-show="addProductForm.product_weight.$error.natural_number">Weight must be positive integer.</span>
                       </div>
                     </div>
 	          	</div>
@@ -122,5 +122,13 @@
 		</div>
 
 	</form>
+	
+	<div class="little-dialog-box absolute-center text-center" ng-show="fail.status" ng-cloak>
+		<span class="subtitle center-block" style="color: #FFFFFF"><strong>Fail</strong></span>
+		<span class="text-label" style="color: #FFFFFF">{{fail.description}}</span><br/>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="hideFail()">OK</button>
+		</div>
+	</div>
 
 </div>

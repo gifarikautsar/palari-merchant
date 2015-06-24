@@ -43,12 +43,13 @@ phinisiApp.controller('signoutController', ['$http', '$scope', '$window', '$log'
         .success(function(data,status,headers,config){
             $log.debug(data);
             if(data.success){                
-                $window.sessionStorage.token = null;
-                $state.transitionTo('login');   
+                $window.sessionStorage.token = null;   
             }
+            $state.transitionTo('login');
         })
         .error(function(data,status,headers,config){
             $log.debug(data.error);
+            $state.transitionTo('login');
         });    
     }
 
