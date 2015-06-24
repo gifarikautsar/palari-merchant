@@ -140,6 +140,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' , '$state' , '$stateParams', 'cloudinary' , function($scope, $http, $log, $state, $stateParams, cloudinary){
 	$scope.productDetails = {};
 	$scope.uploading = false;
+	$scope.statusChanged = false;
 	$scope.load = true;
 	$scope.deletePopUp = false;
 	$scope.showURL = false;
@@ -161,6 +162,46 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 		}
 	};
 		
+	$scope.changeProductStatus = function(){
+		$scope.productDetails.id = $scope.choosenProduct;
+		$log.debug($scope.productDetails);
+		$http.post(
+			//url
+			phinisiEndpoint + '/merchant/product/update',
+			$scope.productDetails,
+			{
+				headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,	
+			})
+		.success(function(data,status,headers,config){
+			$log.debug(data);
+			if(data.hasOwnProperty('name')){
+				$log.debug("update product success");
+				$scope.statusChanged = true;
+			}else{
+				$scope.error = data.description;
+				if(data.description=="Token is not valid"){
+					$state.transitionTo('login', {arg : 'arg'});
+				}
+				else{
+					$scope.fail.status = true;
+					if(data.description == null){
+						$scope.fail.description = 'Update product status fail';
+					}
+					else{
+						$scope.fail.description = data.description;
+					}
+				}
+			}				
+		})
+		.error(function(data,status,headers,config){
+			$log.debug(data);
+			$scope.error = data.error;			
+		});
+		setTimeout(function() {
+			$scope.statusChanged = false;
+		}, 1500);	
+	};
+
 	$scope.getURL = function(){
 		return $scope.paymentURL + $scope.choosenProduct;
 	};
