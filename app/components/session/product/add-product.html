@@ -80,7 +80,7 @@
 				        <span class="subdetails">Maximum file size 2 Megabytes<br/>Allowed extension .JPG, .JPEG, .PNG, .GIF</span>
 		        	</div>
 		        	<div class="col-xs-4 col-sm- col-md-4 col-lg-4 no-padding">
-						<button ngf-select ngf-change="upload($files)" ngf-accept="'image/*'" class="btn-dark-gray btn-primary pull-right"><small>BROWSE FILE</small></button>
+						<button ngf-select ngf-change="upload($files)" ngf-accept="'image/*'" ng-disabled="uploading" class="btn-dark-gray btn-primary pull-right"><small>BROWSE FILE</small></button>
 						<div ng-show="uploading" class="circle-loading-gif no-padding pull-right"></div>
 		        	</div>
 	        	</div>

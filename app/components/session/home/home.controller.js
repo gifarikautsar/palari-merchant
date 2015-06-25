@@ -10,11 +10,14 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		$scope.provinces = {};
 		$scope.cities = {};
 		$scope.districts = {};
+		$scope.getCitiesDone = false;
+		$scope.getDistrictsDone = false;
 		$scope.fail = {
 			status: false,
 			description: '',
 		};
 		$scope.totalProduct = 0;
+		$scope.rejFiles = {};
 
 		$scope.hideFail = function(){
 			$scope.fail.status = false;
@@ -69,6 +72,9 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		};
 
 		$scope.getProvinceList = function(){
+			$scope.getCitiesDone = false;
+			$scope.getDistrictsDone = false;
+			$scope.provinces = {};
 			$scope.storeDetails.merchant_address.city_id = '',
 			$scope.storeDetails.merchant_address.district_id = '',
 			$http.get(
@@ -90,6 +96,8 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		};
 
 		$scope.getCityList = function (){
+			$scope.getCitiesDone = false;
+			$scope.getDistrictsDone = false;
 			$scope.storeDetails.merchant_address.district_id = '',
 			$http.get(
 				//url
@@ -103,6 +111,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				$scope.cities = data;	
 				$log.debug($scope.cities);
 				$log.debug("Get city list success");
+				$scope.getCitiesDone = true;
 			})
 			.error(function(data){
 				$scope.error = data.description;
@@ -110,6 +119,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		};
 
 		$scope.getDistrictList = function (){
+			$scope.getDistrictsDone = false;
 			$http.get(
 				//url
 				phinisiEndpoint + '/area/district?parent=' + $scope.storeDetails.merchant_address.city_id,
@@ -122,6 +132,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				$scope.districts = data;	
 				$log.debug($scope.districts);
 				$log.debug("Get district list success");
+				$scope.getDistrictsDone = true;
 			})
 			.error(function(data){
 				$scope.error = data.description;
@@ -174,7 +185,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			$scope.storeDetails.merchant_address.phone_number = data.merchant_phone;
 			$scope.storeDetails.merchant_address.city = data.merchant_city;
 			$scope.getProvinceList();
-			$scope.storeDetails.merchant_address.province_id = $scope.getProvinceId(data.merchant_city_id);
+			$scope.storeDetails.merchant_address.province_id =  $scope.getProvinceId(data.merchant_city_id);
 			$scope.getCityList();
 			$scope.storeDetails.merchant_address.city_id = data.merchant_city_id;
 			$scope.getDistrictList();
@@ -237,10 +248,4 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		});
 	};
 
-	}]).config(function (cloudinaryProvider) {
-	  	cloudinaryProvider.config({
-		    upload_endpoint: 'https://api.cloudinary.com/v1_1/', // default
-		    cloud_name: 'dwdaddxw9', // required
-		    upload_preset: 'ym6oc9j6', // optional
-		});
-	})
+	}])
