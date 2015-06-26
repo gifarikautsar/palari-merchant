@@ -1,7 +1,7 @@
 <div ng-show="load" class="loading-gif" ng-cloak></div>
 <div ng-show="!load" ng-cloak>
 	<!-- Details Unset -->
-	<div class="content" ng-init="getStoreDetails()" ng-show="!haveStore" ng-cloak>
+	<div class="content" ng-init="getStoreDetails(true)" ng-show="!haveStore" ng-cloak>
 		<div class="inner-content">
 			<span class="subtitle">Store Details</span>
 		</div>

@@ -139,7 +139,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			});
 		};
 
-		$scope.getStoreDetails = function(){
+		$scope.getStoreDetails = function(home){
 			$scope.load = true;
 			$http.post(
 				//url
@@ -153,8 +153,13 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			.success(function(data,status,headers,config){
 				if(data.hasOwnProperty('merchant_id')){
 					$scope.passingData(data);
-					$scope.getProductList();
 					$scope.haveStore = true;
+					if(home){
+						$scope.getProductList();
+					}
+					else{
+						$scope.initLocation(data);
+					}
 					$log.debug('Get store details  success!');	
 				}
 				else{
@@ -184,20 +189,22 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			$scope.storeDetails.merchant_address.address = data.merchant_address;
 			$scope.storeDetails.merchant_address.phone_number = data.merchant_phone;
 			$scope.storeDetails.merchant_address.city = data.merchant_city;
+		};
+
+		$scope.initLocation = function(data){
 			$scope.getProvinceList();
-			$scope.storeDetails.merchant_address.province_id =  $scope.getProvinceId(data.merchant_city_id);
+			$scope.getProvinceId(data.merchant_city_id);
 			$scope.getCityList();
 			$scope.storeDetails.merchant_address.city_id = data.merchant_city_id;
 			$scope.getDistrictList();
-
 		};
+
 		$scope.getProvinceId = function(cityId){
 			provinceId = cityId;
 			while(provinceId >= 100){
 				provinceId = provinceId/10;
 			};
-			//$log.debug("province id: " + provinceId);
-			return Math.floor(provinceId);
+			$scope.storeDetails.merchant_address.province_id =  Math.floor(provinceId);
 		};
 
 		$scope.upload = function (files) {

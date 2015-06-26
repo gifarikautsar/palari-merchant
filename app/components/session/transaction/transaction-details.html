@@ -35,7 +35,7 @@
 				<thead>
 					<th colspan="2">Purchase Details</th>
 				</thead>
-				<tbody ng-repeat="detail in transaction.transaction_detail">
+				<tbody ng-repeat="detail in transaction.transaction_detail | orderBy: item_name">
 					<tr><td>Product Name</td><td><a ui-sref="merchant.productDetails({productId: '{{detail.item_id}}'})">{{detail.item_name}}</a></td></tr>
 					<tr><td>Price</td><td>{{detail.item_price | mycurrency}}</td></tr>
 					<tr><td>Quantity</td><td>{{detail.item_quantity}}</td></tr>
@@ -52,8 +52,8 @@
 				<tbody ng-show="trackingDone" ng-cloak>
 					<tr><td>Shipping Agency</td><td>{{transaction.transaction_courier_name}}</td></tr>
 					<tr><td>Tracking ID</td><td>{{transaction.transaction_tracking_id}}</td></tr>
-					<tr><td>Service Type</td><td>{{transaction.transaction_service_type}}</td></tr>
-					<tr><td>Shipping Cost</td><td>{{transaction.transaction_shipping_cost | mycurrency}}</td></tr>
+					<!--<tr><td>Service Type</td><td>{{transaction.transaction_service_type}}</td></tr>
+					<tr><td>Shipping Cost</td><td>{{transaction.transaction_shipping_cost | mycurrency}}</td></tr>-->
 				</tbody>
 			</table>
 			<br/>

@@ -75,6 +75,9 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 
 	$scope.submitProduct = function(){
 		if ($scope.addProductForm.$valid){
+			if($scope.hideQuantity){
+				$scope.productDetails.quantity = 1;
+			}
 			$log.debug($scope.productDetails.name);
 			$log.debug($scope.productDetails.description);
 			$log.debug($scope.productDetails.price);
@@ -278,6 +281,9 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 
 	$scope.updateProduct = function(){
 		if ($scope.editProductForm.$valid){
+			if($scope.hideQuantity){
+				$scope.productDetails.quantity = 1;
+			}
 			$scope.productDetails.id = $scope.choosenProduct;
 			$log.debug($scope.productDetails);
 			$http.post(
