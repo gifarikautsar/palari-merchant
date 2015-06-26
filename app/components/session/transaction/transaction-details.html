@@ -8,20 +8,18 @@
 		<br/>
 		<br/>
 		<div class="inner-content">
-			<div class="center-block auto-overflow">
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<span class="text-label-center"><strong>Order ID</strong></span>
-					<span class="text-label-center">{{transaction.order_id}}</span>
-				</div>
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<span class="text-label-center"><strong>Amount</strong></span>
-					<span class="text-label-center">{{totalAmount() | mycurrency}}</span>
-				</div>
-				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-					<span class="text-label-center"><strong>Status</strong></span>
-					<span class="text-label-center">{{transaction.transaction_status}}</span>
-				</div>
-			</div>		
+			<table class="transaction-title-table">
+				<tr>
+					<td><span class="text-label-center"><strong>Order ID</strong></span></td>
+					<td><span class="text-label-center"><strong>Amount</strong></span></td>
+					<td><span class="text-label-center"><strong>Status</strong></span></td>
+				</tr>
+				<tr>
+					<td><span class="text-label-center">{{transaction.order_id}}</span></td>
+					<td><span class="text-label-center">{{totalAmount() | mycurrency}}</span></td>
+					<td><span class="text-label-center">{{transaction.transaction_status}}</span></td>
+				</tr>
+			</table>
 		</div>
 		
 		<div class="inner-content">

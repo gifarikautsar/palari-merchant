@@ -112,7 +112,7 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 			$scope.fail.status = false;
 			$scope.fail.description = '';
 			if($scope.backToList){
-				$state.transitionTo('merchant.transaction', {arg : 'arg'});
+				$window.history.back();
 			}
 		};
 

@@ -137,7 +137,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 
 }]);
 
-phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' , '$state' , '$stateParams', 'cloudinary' , function($scope, $http, $log, $state, $stateParams, cloudinary){
+phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' , '$state' , '$stateParams', 'cloudinary' , '$window', function($scope, $http, $log, $state, $stateParams, cloudinary, $window){
 	$scope.productDetails = {};
 	$scope.uploading = false;
 	$scope.statusChanged = false;
@@ -146,7 +146,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 	$scope.showURL = false;
 	$scope.choosenProduct = $stateParams.productId;
 	$scope.productURL = null;
-	$scope.paymentURL = 'http://128.199.71.156:2081/#/payment/';
+	$scope.paymentURL = 'http://128.199.71.156:2081/#/checkout/';
 	$scope.hideQuantity = false; 
 	$scope.fail = {
 		status: false,
@@ -158,7 +158,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 		$scope.fail.status = false;
 		$scope.fail.description = '';
 		if($scope.backToList){
-			$state.transitionTo('merchant.product', {arg : 'arg'});
+			$window.history.back();
 		}
 	};
 		
