@@ -116,6 +116,21 @@
                     </div>
 	          	</div>
 	        </div>
+	        <div class="form-group auto-overflow">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 no-padding">
+					<span class="form-label">Insurance</span>
+				</div>
+				<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 no-padding">				
+					<div class="right-inner-addon">
+		          		<select ng-model="productDetails.insurance" ng-disabled="!productDetails.need_address">
+		          			<option value='Optional'>Optional</option>
+		          			<option value='Yes'>Yes</option>
+		          			<option value='No'>No</option>
+		          		</select>
+		          		<i class="glyphicon glyphicon-triangle-bottom border-left"></i>
+		      		</div>
+		      	</div>
+	      	</div>
 
 		<div class="center-block text-center">
 			<input ng-disabled="uploading" type="submit" id="submit" class="btn-blue btn-primary" value="UPDATE PRODUCT" />

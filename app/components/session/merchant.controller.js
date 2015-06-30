@@ -1,6 +1,12 @@
-phinisiApp.controller('merchantController', function($scope, $window, $rootScope) {
+phinisiApp.controller('merchantController', function($scope, $window, $rootScope, $state) {
 	$scope.$window = $window;
 	$scope.showMenu = false;
+
+    $scope.checkToken = function(){
+        if($window.sessionStorage.token == null){
+            $state.transitionTo('login', {arg : 'arg'});
+        }   
+    }
 
 	$scope.clickMenu = function() {
            $scope.showMenu = !$scope.showMenu;

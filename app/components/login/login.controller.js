@@ -14,10 +14,11 @@ normalApp.controller('loginController', ['$rootScope',
 	'$log',
 	'$state',
 	'$window',
+	'$stateParams',
 	function($rootScope, $scope, $http, $location, $log, $state, $window, $stateParams){
 		$scope.loginModel = {};
 		$scope.$log = $log;
-
+		$scope.expired = $stateParams.expired;
 
 		$scope.checkSession = function(){
 			if($window.sessionStorage.token){

@@ -49,7 +49,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 						}else{
 							$scope.error = data.description;
 							if(data.description=="Token is not valid"){
-								$state.transitionTo('login', {arg : 'arg'});
+								$state.transitionTo('login', {expired : true});
 							}
 							else{
 								$scope.fail.status = true;
@@ -67,6 +67,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 				.error(function(data,status,headers,config){
 					$log.debug(data);
 					$scope.error = data.error;
+					$state.transitionTo('500', { arg: 'arg'});
 				});
 			}
 		};
@@ -92,6 +93,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			})
 			.error(function(data){
 				$scope.error = data.description;
+				$state.transitionTo('500', { arg: 'arg'});
 			});
 		};
 
@@ -115,6 +117,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			})
 			.error(function(data){
 				$scope.error = data.description;
+				$state.transitionTo('500', { arg: 'arg'});
 			});
 		};
 
@@ -136,6 +139,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			})
 			.error(function(data){
 				$scope.error = data.description;
+				$state.transitionTo('500', { arg: 'arg'});
 			});
 		};
 
@@ -166,7 +170,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 					$scope.haveStore = false;
 					$scope.error = data.description;
 					if(data.description=="Token is not valid"){
-						$state.transitionTo('login', {arg : 'arg'});
+						$state.transitionTo('login', {expired : true});
 					}
 					else{
 						$scope.getProvinceList();
@@ -177,6 +181,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			.error(function(data,status,headers,config){
 				$log.debug(data);
 				$scope.error = data.error;
+				$state.transitionTo('500', { arg: 'arg'});
 			});
 			setTimeout(function() {
 				$scope.load = false;
@@ -222,6 +227,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
                     $scope.uploading = false;
                 }).error(function(data,status,headers,config){
                 	$scope.uploading = false;
+                	$state.transitionTo('500', { arg: 'arg'});
 				});;
 	        }
     	};
@@ -245,13 +251,14 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			else{
 				$scope.error = data.description;
 				if(data.description=="Token is not valid"){
-					$state.transitionTo('login', {arg : 'arg'});
+					$state.transitionTo('login', {expired : true});
 				}
 			}
 		})
 		.error(function(data,status,headers,config){
 			$log.debug(data);
-			$scope.error = data.error;				
+			$scope.error = data.error;	
+			$state.transitionTo('500', { arg: 'arg'});			
 		});
 	};
 

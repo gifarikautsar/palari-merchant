@@ -35,13 +35,14 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 				}else{
 					$scope.error = data.description;
 					if(data.description=="Token is not valid"){
-						$state.transitionTo('login', {arg : 'arg'});
+						$state.transitionTo('login', {expired : true});
 					}
 				}
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
-				$scope.error = data.error;				
+				$scope.error = data.error;
+				$state.transitionTo('500', { arg: 'arg'});			
 			});
 		};
 
@@ -64,9 +65,7 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 			})
 			.error(function(data){
 				$scope.error = data.description;
-				if(data.description=="Token is not valid"){
-					$state.transitionTo('login', {arg : 'arg'});
-				}			
+				$state.transitionTo('500', { arg: 'arg'});	
 			});
 			
 
@@ -111,7 +110,7 @@ phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$htt
 					else{
 						$scope.error = data.description;
 						if(data.description=="Token is not valid"){
-							$state.transitionTo('login', {arg : 'arg'});
+							$state.transitionTo('login', {expired : true});
 						}
 						else{
 							$scope.fail.status = true;
@@ -126,7 +125,8 @@ phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$htt
 				})
 				.error(function(data,status,headers,config){
 					$log.debug(data);
-					$scope.error = data.error;				
+					$scope.error = data.error;
+					$state.transitionTo('500', { arg: 'arg'});				
 				});
 			}
 		};

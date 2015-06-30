@@ -10,7 +10,8 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 		weight: 1,
 		image_url: [],
 		limitless: false,
-		need_address: false
+		need_address: false,
+		insurance: 'No'
 	}	
 	$scope.merchantProduct = {
 		merchant_id : '',
@@ -60,13 +61,14 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 			else{
 				$scope.error = data.description;
 				if(data.description=="Token is not valid"){
-					$state.transitionTo('login', {arg : 'arg'});
+					$state.transitionTo('login', {expired : true});
 				}
 			}
 		})
 		.error(function(data,status,headers,config){
 			$log.debug(data);
-			$scope.error = data.error;				
+			$scope.error = data.error;
+			$state.transitionTo('500', { arg: 'arg'});			
 		});
 		setTimeout(function() {
 			$scope.load = false;
@@ -99,7 +101,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 				}else{
 					$scope.error = data.description;
 					if(data.description=="Token is not valid"){
-						$state.transitionTo('login', {arg : 'arg'});
+						$state.transitionTo('login', {expired : true});
 					}
 					else{
 						$scope.fail.status = true;
@@ -114,7 +116,8 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
-				$scope.error = data.error;			
+				$scope.error = data.error;
+				$state.transitionTo('500', { arg: 'arg'});	
 			});
 		}		
 	};
@@ -149,7 +152,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 	$scope.showURL = false;
 	$scope.choosenProduct = $stateParams.productId;
 	$scope.productURL = null;
-	$scope.paymentURL = 'http://128.199.71.156:2081/#/checkout/';
+	$scope.paymentURL = 'http://128.199.71.156:2081/#/customer/checkout/';
 	$scope.hideQuantity = false; 
 	$scope.fail = {
 		status: false,
@@ -183,7 +186,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 			}else{
 				$scope.error = data.description;
 				if(data.description=="Token is not valid"){
-					$state.transitionTo('login', {arg : 'arg'});
+					$state.transitionTo('login', {expired : true});
 				}
 				else{
 					$scope.fail.status = true;
@@ -198,7 +201,8 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 		})
 		.error(function(data,status,headers,config){
 			$log.debug(data);
-			$scope.error = data.error;			
+			$scope.error = data.error;
+			$state.transitionTo('500', { arg: 'arg'});	
 		});
 		setTimeout(function() {
 			$scope.statusChanged = false;
@@ -240,7 +244,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 			else{
 				$scope.error = data.description;
 				if(data.description=="Token is not valid"){
-					$state.transitionTo('login', {arg : 'arg'});
+					$state.transitionTo('login', {expired : true});
 				}
 				else{
 					$scope.fail.status = true;
@@ -256,7 +260,8 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 		})
 		.error(function(data,status,headers,config){
 			$log.debug(data);
-			$scope.error = data.error;				
+			$scope.error = data.error;	
+			$state.transitionTo('500', { arg: 'arg'});			
 		});
 		setTimeout(function() {
 			$scope.load = false;
@@ -301,7 +306,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 				}else{
 					$scope.error = data.description;
 					if(data.description=="Token is not valid"){
-						$state.transitionTo('login', {arg : 'arg'});
+						$state.transitionTo('login', {expired : true});
 					}
 					else{
 						$scope.fail.status = true;
@@ -316,7 +321,8 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
-				$scope.error = data.error;			
+				$scope.error = data.error;	
+				$state.transitionTo('500', { arg: 'arg'});		
 			});	
 		}
 	};

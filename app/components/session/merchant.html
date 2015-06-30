@@ -1,6 +1,6 @@
-<header>
+<header ng-init="checkToken()">
     <i class="menu-button pull-left" ng-click="clickMenu()"></i>
-    <span class="title vertical-align" style="justify-content: flex-start !important; color: #FFFFFF">Home</span>
+    <span class="title vertical-align" style="justify-content: flex-start !important; color: #FFFFFF">Phinisi</span>
 </header>
   <div class="sidebar animate-push-right" ng-show="showMenu">
     
@@ -8,7 +8,6 @@
         <i class="logo pull-left"></i>
         <span class="title vertical-align">Phinisi</span>
     </div>
-    <span class="merchant-name">Blitzmegaplex</span>
     <div class="menu-list">
         <a ui-sref="merchant.home" class="menu">Home</a>
         <a ui-sref="merchant.product" class="menu">Product</a>

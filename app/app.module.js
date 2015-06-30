@@ -5,8 +5,8 @@ var phinisiApp = angular.module('phinisiApp', [
 	'angularUtils.directives.dirPagination',
   	'angular-cloudinary'
 ]).config(function($logProvider){
-  $logProvider.debugEnabled(false);
-  console.log = function() {}
+  // $logProvider.debugEnabled(false);
+  // console.log = function() {}
 }).config(function (cloudinaryProvider) {
   	cloudinaryProvider.config({
 	    upload_endpoint: 'https://api.cloudinary.com/v1_1/', // default

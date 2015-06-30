@@ -56,15 +56,15 @@
 					<tr><td>Shipping Cost</td><td>{{transaction.transaction_shipping_cost | mycurrency}}</td></tr>-->
 				</tbody>
 			</table>
-			<br/>
-			<div class="row" ng-show="!trackingDone" ng-cloak>
+			<div class="row" ng-show="!trackingDone && transaction.transaction_status!='cancel'" ng-cloak>
+				<br/>
 				<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
 					<button class="btn-blue btn-primary" ng-click="confirmToggle()" ng-disabled="confirm">CONFIRM DELIVERY</button>
 				</p>
 			</div>
 		</div>
 
-		<div class="row" ng-show="!shipping || trackingDone" ng-cloak>
+		<div class="row" ng-show="!shipping || trackingDone || transaction.transaction_status=='cancel'" ng-cloak>
 			<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
 				<button ui-sref="merchant.transaction" class="btn-blue btn-primary">  OK  </button>
 			</p>

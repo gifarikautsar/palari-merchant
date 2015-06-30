@@ -7,6 +7,10 @@
 			<h3>Welcome to Phinisi</h3>
 		</div>
 		<form role="form" name="loginForm" ng-submit="login()" style="margin-top: 30px">
+			<div class="error-box" ng-show="expired">
+				<span class="error-message">Your session has expired. Please log in again</span>
+			</div>
+
 			<div class="error-box" ng-show="error">
 				<span class="error-message">{{ error }}</span>
 			</div>

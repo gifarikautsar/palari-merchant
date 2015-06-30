@@ -21,7 +21,7 @@ sessionApp.controller('transactionController', ['$scope' , '$http' , '$log' , '$
 					if(!data.success){
 						$scope.error = data.description;
 						if(data.description=="Token is not valid"){
-							$state.transitionTo('login', {arg : 'arg'});
+							$state.transitionTo('login', {expired : true});
 						}
 					}
 				}	
@@ -39,7 +39,8 @@ sessionApp.controller('transactionController', ['$scope' , '$http' , '$log' , '$
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
-				$scope.error = data.error;				
+				$scope.error = data.error;
+				$state.transitionTo('500', { arg: 'arg'});			
 			});
 			setTimeout(function() {
 				$scope.load = false;
@@ -93,7 +94,7 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 				else{
 					$scope.error = data.description;
 					if(data.description=="Token is not valid"){
-						$state.transitionTo('login', {arg : 'arg'});
+						$state.transitionTo('login', {expired : true});
 					}
 					else{
 						$scope.fail.status = true;
@@ -109,7 +110,8 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
-				$scope.error = data.error;				
+				$scope.error = data.error;
+				$state.transitionTo('500', { arg: 'arg'});				
 			});
 			setTimeout(function() {
 				$scope.load = false;
@@ -181,7 +183,7 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 						$log.debug(data.description);
 						$scope.error = data.description;
 						if(data.description=="Token is not valid"){
-							$state.transitionTo('login', {arg : 'arg'});
+							$state.transitionTo('login', {expired : true});
 						}
 						else{
 							$scope.fail.status = true;
@@ -198,6 +200,7 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 				.error(function(data,status,headers,config){
 					$log.debug(data);
 					$scope.error = data.error;	
+					$state.transitionTo('500', { arg: 'arg'});
 				});
 			}
 		};

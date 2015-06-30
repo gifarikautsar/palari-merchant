@@ -1,17 +1,20 @@
 routesApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 	$stateProvider
 		.state('login', {
-			url: '/login',
+			url: '/merchant/login',
 			templateUrl: 'app/components/login/login.html',
-			controller: 'loginController'
+			controller: 'loginController',
+			params: {
+				expired: false
+			}
 		})
 		.state('loginError', {
-			url: '/login?error',
+			url: '/merchant/login?error',
 			templateUrl: 'app/components/login/login.html',
 			controller: 'loginController'
 		})
 		.state('forgotPassword', {
-			url: '/forgot-password',
+			url: '/merchant/forgot-password',
 			templateUrl: 'app/components/login/forgot-password.html'
 		});
 });
