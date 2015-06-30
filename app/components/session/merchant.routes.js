@@ -83,8 +83,6 @@ routesApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', f
       templateUrl: 'app/components/errors/500.html'
     });
     
-    .otherwise({redirectTo: "/404"})
-
   // $locationProvider.html5Mode(true);
 
 }]);
