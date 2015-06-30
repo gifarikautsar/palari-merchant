@@ -1,7 +1,7 @@
 routesApp.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 	$stateProvider
 		.state('login', {
-			url: '/merchant/login',
+			url: '/login',
 			templateUrl: 'app/components/login/login.html',
 			controller: 'loginController',
 			params: {
@@ -9,12 +9,12 @@ routesApp.config(function($stateProvider, $urlRouterProvider, $locationProvider)
 			}
 		})
 		.state('loginError', {
-			url: '/merchant/login?error',
+			url: '/login?error',
 			templateUrl: 'app/components/login/login.html',
 			controller: 'loginController'
 		})
 		.state('forgotPassword', {
-			url: '/merchant/forgot-password',
+			url: '/forgot-password',
 			templateUrl: 'app/components/login/forgot-password.html'
 		});
 });
