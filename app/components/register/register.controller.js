@@ -1,7 +1,7 @@
 // var registerApp = angular.module('registerApp', ['ngAnimate']);
 
-phinisiApp.controller('registerController', ['$rootScope', '$scope', '$http', '$location', '$log', '$state', 
-	function($rootScope, $scope, $http, $location, $log, $state){
+phinisiApp.controller('registerController', ['$rootScope', '$scope', '$http', '$location', '$log', '$state', 'md5',
+	function($rootScope, $scope, $http, $location, $log, $state, md5){
 		$scope.regModel = {};
 		$scope.$log = $log;
 		$scope.register = function(){
@@ -14,7 +14,7 @@ phinisiApp.controller('registerController', ['$rootScope', '$scope', '$http', '$
 					//url
 					phinisiEndpoint + '/merchant/register', 
 					//data
-					{email : $scope.regModel.username, password: $scope.regModel.password},
+					{email : $scope.regModel.username, password: md5.createHash($scope.regModel.password || '')},
 					//config
 					{
 						headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				

@@ -28,7 +28,6 @@ normalApp.controller('loginController', ['$rootScope',
 		}
 
 		$scope.login = function(){
-			$scope.loginModel.password = md5.createHash($scope.loginModel.password || '');
 			if ($scope.loginForm.$valid){
 				//get username and password from model
 				console.log($scope.loginModel.username);
@@ -40,7 +39,7 @@ normalApp.controller('loginController', ['$rootScope',
 					//data
 					{
 						email : $scope.loginModel.username, 
-						password: $scope.loginModel.password 
+						password: md5.createHash($scope.loginModel.password || '')
 					},
 					//config
 					{
