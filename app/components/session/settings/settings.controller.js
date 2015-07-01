@@ -7,6 +7,7 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 			status: false,
 			description: '',
 		};
+		$scope.success = false;
 
 		$scope.hideFail = function(){
 			$scope.fail.status = false;
@@ -32,10 +33,20 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 				$log.debug(data);
 				if(data.success){
 					$log.debug("success save token");
+					$scope.success = true;
 				}else{
 					$scope.error = data.description;
 					if(data.description=="Token is not valid"){
 						$state.transitionTo('login', {expired : true});
+					}
+					else{
+						$scope.fail.status = true;
+						if(data.description == null){
+							$scope.fail.description = 'Access Keys is not valid';
+						}
+						else{
+							$scope.fail.description = data.description;
+						}
 					}
 				}
 			})
@@ -81,10 +92,15 @@ phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$htt
 			status: false,
 			description: '',
 		};
-
+		$scope.success = false;
 		$scope.hideFail = function(){
 			$scope.fail.status = false;
 			$scope.fail.description = '';
+		};
+
+		$scope.afterSuccess = function(){
+			$scope.success = false;
+			$state.transitionTo('merchant.settings', {arg : 'arg'});
 		};
 
 		$scope.changePassword = function(){
@@ -105,7 +121,7 @@ phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$htt
 					$log.debug(data);
 					if(data.hasOwnProperty('result')){
 						$log.debug("Change password success");
-						$state.transitionTo('merchant.settings', {arg : 'arg'});	
+						$scope.success = true;
 					}
 					else{
 						$scope.error = data.description;
