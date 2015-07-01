@@ -214,7 +214,6 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 
 		$scope.upload = function (files) {
 			if(files && files.length){
-				$log.debug(files[0].type);
 				$scope.uploading = true;
 		        cloudinary.upload(files, {
 
@@ -227,8 +226,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
                     $scope.uploading = false;
                 }).error(function(data,status,headers,config){
                 	$scope.uploading = false;
-                	$state.transitionTo('500', { arg: 'arg'});
-				});;
+				});
 	        }
     	};
 

@@ -31,13 +31,15 @@
 				        <span class="subdetails">Maximum file size 2 Megabytes<br/>Allowed extension .JPG, .JPEG, .PNG, .GIF</span>
 		        	</div>
 		        	<div class="col-xs-4 col-sm- col-md-4 col-lg-4 no-padding">
-						<button ngf-select ngf-change="upload($files)" ngf-accept="'image/*'" ngf-max-size='20000000' ng-disabled="uploading" class="btn-dark-gray btn-primary pull-right"><small>BROWSE FILE</small></button>
+						<button ngf-select ngf-change="upload($files)" ngf-accept="'*.png, *.jpg, *.jpeg, *.gif'" ngf-max-size='20000000' ng-disabled="uploading" class="btn-dark-gray btn-primary pull-right" ng-model-rejected="rejFiles"><small>BROWSE FILE</small></button>
 						<div ng-show="uploading" class="circle-loading-gif no-padding pull-right"></div>
 		        		<!-- <div class="btn-dark-gray btn-primary btn-upload pull-right" upload-button url="/upload" on-success="onSuccess(response)">Upload</div> -->
 		        	</div>
 	        	</div>
 	        </div>
-	        
+
+	        {{uploadFail}}
+
 	        <div class="form-group">
 	        	<span class="form-label">Phone Number</span>
 	          	<div class="right-inner-addon">
@@ -50,7 +52,6 @@
 	            	</div>
 	        	</div>
 		    </div>
-
 		</div>
         <hr/>
 

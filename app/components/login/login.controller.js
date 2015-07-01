@@ -15,7 +15,8 @@ normalApp.controller('loginController', ['$rootScope',
 	'$state',
 	'$window',
 	'$stateParams',
-	function($rootScope, $scope, $http, $location, $log, $state, $window, $stateParams){
+	'md5',
+	function($rootScope, $scope, $http, $location, $log, $state, $window, $stateParams, md5){
 		$scope.loginModel = {};
 		$scope.$log = $log;
 		$scope.expired = $stateParams.expired;
@@ -27,6 +28,7 @@ normalApp.controller('loginController', ['$rootScope',
 		}
 
 		$scope.login = function(){
+			$scope.loginModel.password = md5.createHash($scope.loginModel.password || '');
 			if ($scope.loginForm.$valid){
 				//get username and password from model
 				console.log($scope.loginModel.username);
@@ -36,7 +38,10 @@ normalApp.controller('loginController', ['$rootScope',
 					//url
 					phinisiEndpoint + '/merchant/account/login', 
 					//data
-					{email : $scope.loginModel.username, password: $scope.loginModel.password},
+					{
+						email : $scope.loginModel.username, 
+						password: $scope.loginModel.password 
+					},
 					//config
 					{
 						headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				

@@ -72,8 +72,8 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 		};
 }]);
 
-phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$http', '$log', '$state',
-	function($rootScope, $scope, $http, $log, $state){
+phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$http', '$log', '$state', 'md5',
+	function($rootScope, $scope, $http, $log, $state, md5){
 		$scope.currentPassword = '';
 		$scope.newPassword = '';
 		$scope.confirmNewPassword = '';
@@ -94,8 +94,8 @@ phinisiApp.controller('changePasswordController', ['$rootScope', '$scope', '$htt
 					phinisiEndpoint + '/merchant/changepassword',
 					//data
 					{
-						old_password: $scope.currentPassword,
-						new_password: $scope.newPassword
+						old_password: md5.createHash($scope.currentPassword || ''),
+						new_password: md5.createHash($scope.newPassword || '')
 					},
 					//config
 					{
