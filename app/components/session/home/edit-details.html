@@ -36,9 +36,8 @@
 		        		<!-- <div class="btn-dark-gray btn-primary btn-upload pull-right" upload-button url="/upload" on-success="onSuccess(response)">Upload</div> -->
 		        	</div>
 	        	</div>
+	        	<span class="error-message" ng-show="rejFiles.length>0">File is not valid.</span>
 	        </div>
-
-	        {{uploadFail}}
 
 	        <div class="form-group">
 	        	<span class="form-label">Phone Number</span>
