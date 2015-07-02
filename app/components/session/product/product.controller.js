@@ -3,6 +3,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 	$scope.load = true;
 	$scope.haveProduct = false;
 	$scope.hideQuantity = false; 
+	$scope.uploadFail = false;
 	$scope.productDetails = {
 		name: '',
 		description: '',
@@ -137,6 +138,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
                 $scope.uploading = false;
             }).error(function(data,status,headers,config){
             	$scope.uploading = false;
+            	$scope.uploadFail = true;
 			});;
         }
 	};
@@ -159,6 +161,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 		description: '',
 	};
 	$scope.backToList = false;
+	$scope.uploadFail = false;
 
 	$scope.hideFail = function(){
 		$scope.fail.status = false;
@@ -343,6 +346,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
                 $scope.uploading = false;
             }).error(function(data,status,headers,config){
             	$scope.uploading = false;
+            	$scope.uploadFail = true;
 			});;
         }
 	};

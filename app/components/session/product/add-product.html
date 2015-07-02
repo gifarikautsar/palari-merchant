@@ -80,11 +80,12 @@
 				        <span class="subdetails">Maximum file size 2 Megabytes<br/>Allowed extension .JPG, .JPEG, .PNG, .GIF</span>
 		        	</div>
 		        	<div class="col-xs-4 col-sm- col-md-4 col-lg-4 no-padding">
-						<button ngf-select ngf-change="upload($files)" ngf-accept="'*.png, *.jpg, *.jpeg, *.gif'" ng-disabled="uploading" class="btn-dark-gray btn-primary pull-right" ng-model-rejected="rejFiles"><small>BROWSE FILE</small></button>
+						<button ngf-select ngf-change="upload($files)" ngf-accept="'image/*'" ngf-max-size='2000000' ng-disabled="uploading" class="btn-dark-gray btn-primary pull-right" ng-model-rejected="rejFiles" ng-click="rejFiles = null"><small>BROWSE FILE</small></button>
 						<div ng-show="uploading" class="circle-loading-gif no-padding pull-right"></div>
 		        	</div>
 	        	</div>
 	        	<span class="error-message" ng-show="rejFiles.length>0">File is not valid.</span>
+	        	<span class="error-message" ng-show="uploadFail">Upload failed</span>
 	        </div>
 
 		</div>

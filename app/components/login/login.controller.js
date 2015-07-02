@@ -21,12 +21,6 @@ normalApp.controller('loginController', ['$rootScope',
 		$scope.$log = $log;
 		$scope.expired = $stateParams.expired;
 
-		$scope.checkSession = function(){
-			if($window.sessionStorage.token){
-				// $state.transitionTo('merchant.home', {arg : 'arg'});
-			}
-		}
-
 		$scope.login = function(){
 			if ($scope.loginForm.$valid){
 				//get username and password from model
@@ -62,10 +56,8 @@ normalApp.controller('loginController', ['$rootScope',
 					$scope.loginModel = {};				
 				});	
 			}
-			$scope.checkSession();
+			$scope.expired = false;
 		};
-
-		
 	}]);
 
 
