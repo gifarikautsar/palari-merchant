@@ -12,7 +12,8 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 		image_url: [],
 		limitless: false,
 		need_address: false,
-		insurance: 'No'
+		insurance: 'No',
+		environment_type: 'DEVELOPMENT'
 	}	
 	$scope.merchantProduct = {
 		merchant_id : '',

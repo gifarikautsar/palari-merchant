@@ -3,6 +3,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 		$scope.uploading = false;
 		$scope.load = true;
 		$scope.haveStore = false;
+		$scope.uploadFail = false;
 		$scope.storeDetails = {
 			merchant_details: {}, 
 			merchant_address: {}
@@ -226,6 +227,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
                     $scope.uploading = false;
                 }).error(function(data,status,headers,config){
                 	$scope.uploading = false;
+                	$scope.uploadFail = true;
 				});
 	        }
     	};
