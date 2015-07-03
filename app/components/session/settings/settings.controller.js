@@ -41,12 +41,7 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 					}
 					else{
 						$scope.fail.status = true;
-						if(data.description == null){
-							$scope.fail.description = 'Access Keys is not valid';
-						}
-						else{
-							$scope.fail.description = data.description;
-						}
+						$scope.fail.description = 'Access Keys is not valid';
 					}
 				}
 			})

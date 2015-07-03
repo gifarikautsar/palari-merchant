@@ -140,7 +140,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
             }).error(function(data,status,headers,config){
             	$scope.uploading = false;
             	$scope.uploadFail = true;
-			});;
+			});
         }
 	};
 
