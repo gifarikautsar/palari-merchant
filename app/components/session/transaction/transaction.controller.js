@@ -46,9 +46,10 @@ sessionApp.controller('transactionController', ['$scope' , '$http' , '$log' , '$
 				$scope.load = false;
 			}, 50);
 		};
+		
 		$scope.filterOrderId = function(orderId){
-			if(orderId.length>17){
-				return orderId.substr(0,9) + '...' +  orderId.substr(orderId.length-5,orderId.length);
+			if(orderId.length>16){
+				return orderId.substr(0,9) + '...' +  orderId.substr(orderId.length-4,orderId.length);
 			}
 			else{
 				return orderId;

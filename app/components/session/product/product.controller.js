@@ -12,7 +12,7 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 		image_url: [],
 		limitless: false,
 		need_address: false,
-		insurance: 'No',
+		insurance_type: 'NOT_NEEDED',
 		environment_type: 'DEVELOPMENT'
 	}	
 	$scope.merchantProduct = {
@@ -76,6 +76,15 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 			$scope.load = false;
 		}, 50);
 	};
+
+	$scope.getProductImage = function(product){
+		if(product.image_url[0] != null){
+			return product.image_url[0];
+		}
+		else{
+			return 'assets/img/product_icon.png';
+		}
+	}
 
 	$scope.submitProduct = function(){
 		if ($scope.addProductForm.$valid){
@@ -211,6 +220,27 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 		setTimeout(function() {
 			$scope.statusChanged = false;
 		}, 1500);	
+	};
+
+	$scope.getProductImage = function(){
+		if($scope.productDetails.image_url[0] != null){
+			return $scope.productDetails.image_url[0];
+		}
+		else{
+			return 'assets/img/product_icon.png';
+		}
+	};
+
+	$scope.getInsurance = function(){
+		if($scope.productDetails.insurance_type === 'NEEDED'){
+			return 'Yes';
+		}
+		else if($scope.productDetails.insurance_type === 'NOT_NEEDED'){
+			return 'No';
+		}
+		else if($scope.productDetails.insurance_type === 'OPTIONAL'){
+			return 'Optional';
+		}
 	};
 
 	$scope.getURL = function(){

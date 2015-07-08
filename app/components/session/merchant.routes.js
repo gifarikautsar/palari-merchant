@@ -69,7 +69,7 @@ routesApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', f
 
     .state('merchant.signout', {
       url: '/merchant/signout',
-      templateUrl: 'app/components/session/home/home.html',
+      templateUrl: 'app/components/login/login.html',
       controller: 'signoutController'
     })
 

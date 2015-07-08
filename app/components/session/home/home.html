@@ -19,19 +19,20 @@
 			<a ui-sref="merchant.editDetails" class="link-blue pull-right">edit details <i class="fa fa-arrow-right"></i></a>
 		</div>
 		<div class="inner-content text-center">
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-wrapper">
-				<a ui-sref="merchant.product" span class="product-number-label green center-block">N/A</a>
-				<span class="product-info-label center-block">Product Sold</span>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-wrapper">
+					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-wrapper">
 				<a ui-sref="merchant.product" class="product-number-label orange center-block">{{totalProduct}}</a>
 				<span class="product-info-label center-block">Total Product</span>
-			</div>		
+			</div>	
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-wrapper">
+				<a ui-sref="merchant.transaction" span class="product-number-label green center-block">{{totalTransaction}}</a>
+				<span class="product-info-label center-block">Total Transaction</span>
+			</div>	
 		</div>
 		<hr/>
 		<div class="text-center">
 			<img src={{storeDetails.merchant_details.merchant_logo_url}} class="store-image" alt="Store Logo"></img>
 		</div>
+		<br/>
 		<div class="inner-content">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 details-group">
 				<span class="text-label"><strong>Store Name</strong></span>

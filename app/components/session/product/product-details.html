@@ -5,13 +5,12 @@
 			<span class="col-xs-6 col-sm-6 col-md-6 col-lg-6 subtitle"><strong>Product Details</strong></span>
 			<a ui-sref="merchant.product" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 link-blue text-right"><i class="fa fa-arrow-left"></i> Back</a>	
 		</div>
-		<br/>
-		<div class="inner-content">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 inner-content">
 			<div class="center-block text-center">
-				<img src="{{productDetails.image_url[0]}}" class="product-image" style="width: 80% !important"></i>
+				<img src="{{getProductImage()}}" class="product-image" style="width: 80% !important"></i>
 			</div>
 		</div>
-		<div class="inner-content">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 inner-content">
 			<div class="center-block auto-overflow">
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<a ui-sref="merchant.editProduct({productId: '{{choosenProduct}}'})" class="link-blue pull-left"><center><i class="fa fa-edit"></i> Edit</center></a>
@@ -64,7 +63,7 @@
 						</tr>
 						<tr class="product-details-row">
 							<td><i class="fa fa-truck"></i> Insurance</td>
-							<td>{{productDetails.insurance}}</td>
+							<td>{{getInsurance()}}</td>
 						</tr>
 					</tbody>
 				</table>

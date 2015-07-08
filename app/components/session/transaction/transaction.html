@@ -41,7 +41,7 @@
 				</tr>
 				<tr dir-paginate="transaction in transactions | filter : {order_id : searchTransaction} | filter : {transaction_status : transactionType} | orderBy : '-transaction_date' | itemsPerPage:10">
 					<td> 
-						<a ui-sref="merchant.transactionDetails({transactionId: '{{transaction.order_id}}'})" class="link-orange"><u>{{filterOrderId(transaction.order_id)}}</u></a>
+						<a ui-sref="merchant.transactionDetails({transactionId: '{{transaction.order_id}}'})" style="color: #F7931D;"><u>{{filterOrderId(transaction.order_id)}}</u></a>
 					</td>
 					<td>{{transaction.transaction_date}}</td>
 					<td>{{transaction.transaction_status}}</td>

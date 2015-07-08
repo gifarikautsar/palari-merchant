@@ -18,6 +18,7 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 			description: '',
 		};
 		$scope.totalProduct = 0;
+		$scope.totalTransaction = 0;
 		$scope.rejFiles = {};
 
 		$scope.hideFail = function(){
@@ -160,7 +161,10 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 					$scope.passingData(data);
 					$scope.haveStore = true;
 					if(home){
-						$scope.getProductList();
+						if($scope.haveStore){
+							$scope.getProductList();
+							$scope.getTransactionList();
+						}
 					}
 					else{
 						$scope.initLocation(data);
@@ -233,33 +237,64 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
     	};
 
     	$scope.getProductList = function(){
-		$log.debug($window.sessionStorage.token);
-		$http.post(
-			//url
-			phinisiEndpoint + '/merchant/product',
-			//data
-			{
-			},
-			//config
-			{
-				headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
-			})
-		.success(function(data,status,headers,config){
-			if(data.hasOwnProperty('merchant_id')){
-				$scope.totalProduct = data.merchant_product.length; 
-			}	
-			else{
-				$scope.error = data.description;
-				if(data.description=="Token is not valid"){
-					$state.transitionTo('login', {expired : true});
+			$log.debug($window.sessionStorage.token);
+			$http.post(
+				//url
+				phinisiEndpoint + '/merchant/product',
+				//data
+				{
+				},
+				//config
+				{
+					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+				})
+			.success(function(data,status,headers,config){
+				if(data.hasOwnProperty('merchant_id')){
+					$scope.totalProduct = data.merchant_product.length; 
+				}	
+				else{
+					$scope.error = data.description;
+					if(data.description=="Token is not valid"){
+						$state.transitionTo('login', {expired : true});
+					}
 				}
-			}
-		})
-		.error(function(data,status,headers,config){
-			$log.debug(data);
-			$scope.error = data.error;	
-			$state.transitionTo('500', { arg: 'arg'});			
-		});
-	};
+			})
+			.error(function(data,status,headers,config){
+				$log.debug(data);
+				$scope.error = data.error;	
+				$state.transitionTo('500', { arg: 'arg'});			
+			});
+		};
+
+		$scope.getTransactionList = function(){
+			$http.post(
+				//url
+				phinisiEndpoint + '/merchant/transaction',
+				//data
+				{
+				},
+				//config
+				{
+					headers :{ 'Content-Type': 'application/json','Accept': 'application/json'}	,				
+				})
+			.success(function(data,status,headers,config){
+				if(data.hasOwnProperty('success')){
+					if(!data.success){
+						$scope.error = data.description;
+						if(data.description=="Token is not valid"){
+							$state.transitionTo('login', {expired : true});
+						}
+					}
+				}	
+				else{
+					$scope.totalTransaction = data.length;
+				}
+			})
+			.error(function(data,status,headers,config){
+				$log.debug(data);
+				$scope.error = data.error;
+				$state.transitionTo('500', { arg: 'arg'});			
+			});
+		};
 
 	}])
