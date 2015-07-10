@@ -66,25 +66,14 @@ phinisiApp.controller('addProductController', ['$scope' , '$http' , '$log' , '$w
 					$state.transitionTo('login', {expired : true});
 				}
 			}
+			$scope.load = false;
 		})
 		.error(function(data,status,headers,config){
 			$log.debug(data);
 			$scope.error = data.error;
 			$state.transitionTo('500', { arg: 'arg'});			
 		});
-		setTimeout(function() {
-			$scope.load = false;
-		}, 50);
 	};
-
-	$scope.getProductImage = function(product){
-		if(product.image_url[0] != null){
-			return product.image_url[0];
-		}
-		else{
-			return 'assets/img/product_icon.png';
-		}
-	}
 
 	$scope.submitProduct = function(){
 		if ($scope.addProductForm.$valid){
@@ -210,25 +199,14 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 						$scope.fail.description = data.description;
 					}
 				}
-			}				
+			}
+			$scope.load = false;
 		})
 		.error(function(data,status,headers,config){
 			$log.debug(data);
 			$scope.error = data.error;
 			$state.transitionTo('500', { arg: 'arg'});	
 		});
-		setTimeout(function() {
-			$scope.statusChanged = false;
-		}, 1500);	
-	};
-
-	$scope.getProductImage = function(){
-		if($scope.productDetails.image_url[0] != null){
-			return $scope.productDetails.image_url[0];
-		}
-		else{
-			return 'assets/img/product_icon.png';
-		}
 	};
 
 	$scope.getInsurance = function(){
@@ -291,15 +269,13 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 					$scope.backToList = true;
 				}
 			}
+			$scope.load = false;
 		})
 		.error(function(data,status,headers,config){
 			$log.debug(data);
 			$scope.error = data.error;	
 			$state.transitionTo('500', { arg: 'arg'});			
 		});
-		setTimeout(function() {
-			$scope.load = false;
-		}, 50);
 	};
 
 	$scope.urlToggle = function(){

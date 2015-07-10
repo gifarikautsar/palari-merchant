@@ -36,15 +36,13 @@ sessionApp.controller('transactionController', ['$scope' , '$http' , '$log' , '$
 					}
 					$log.debug('Get transactions list success!');
 				}
+				$scope.load = false;
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
 				$scope.error = data.error;
 				$state.transitionTo('500', { arg: 'arg'});			
 			});
-			setTimeout(function() {
-				$scope.load = false;
-			}, 50);
 		};
 		
 		$scope.filterOrderId = function(orderId){
@@ -108,15 +106,13 @@ sessionApp.controller('transactionDetailsController', ['$scope' , '$http' , '$lo
 						$scope.backToList = true;
 					}
 				}
+				$scope.load = false;
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
 				$scope.error = data.error;
 				$state.transitionTo('500', { arg: 'arg'});				
 			});
-			setTimeout(function() {
-				$scope.load = false;
-			}, 50);
 		};
 
 		$scope.hideFail = function(){

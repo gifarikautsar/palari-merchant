@@ -182,15 +182,13 @@ phinisiApp.controller('detailsController', ['$scope', '$http', '$window', '$log'
 					}
 				}
 				$log.debug(data);
+				$scope.load = false;
 			})
 			.error(function(data,status,headers,config){
 				$log.debug(data);
 				$scope.error = data.error;
 				$state.transitionTo('500', { arg: 'arg'});
 			});
-			setTimeout(function() {
-				$scope.load = false;
-			}, 50);
 		};
 
 		$scope.passingData = function(data){
