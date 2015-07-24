@@ -45,9 +45,8 @@
 		<div class="inner-content" ng-show="shipping" ng-cloak>
 			<table class="transaction-details-table">
 				<tr><th colspan="2">Shipping Information</th></tr>
-				<tr><td>Recipient's Name</td><td>{{transaction.transaction_customer_name}}</td></tr>
+				<tr><td>Recipient's Name</td><td>{{transaction.shipping_address.first_name + ' ' + transaction.shipping_address.last_name}}</td></tr>
 				<tr><td>Recipient's Phone</td><td>{{transaction.shipping_address.phone}}</td></tr>
-				<tr><td>Recipient's E-mail</td><td>{{transaction.transaction_customer_email}}</td></tr>
 				<tr><td>Address</td><td>{{transaction.shipping_address.address + ", " + transaction.shipping_address.city + ", " + transaction.shipping_address.postal_code}}</td></tr>
 				<tbody ng-show="trackingDone" ng-cloak>
 					<tr><td>Shipping Agency</td><td>{{transaction.transaction_courier_name}}</td></tr>

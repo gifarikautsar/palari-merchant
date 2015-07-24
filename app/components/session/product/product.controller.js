@@ -153,7 +153,7 @@ phinisiApp.controller('productDetailsController', ['$scope' , '$http' , '$log' ,
 	$scope.showURL = false;
 	$scope.choosenProduct = $stateParams.productId;
 	$scope.productURL = null;
-	$scope.paymentURL = 'http://128.199.71.156:2081/#/customer/checkout/';
+	$scope.paymentURL = 'http://payment.bbmpay.veritrans.co.id//#/customer/checkout/';
 	$scope.hideQuantity = false; 
 	$scope.fail = {
 		status: false,

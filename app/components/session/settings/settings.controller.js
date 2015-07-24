@@ -8,6 +8,7 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 			description: '',
 		};
 		$scope.success = false;
+		$scope.showDialogBox = false;
 
 		$scope.hideFail = function(){
 			$scope.fail.status = false;
@@ -15,6 +16,7 @@ phinisiApp.controller('tokenController', ['$rootScope', '$scope', '$http', '$loc
 		};
 
 		$scope.saveToken = function(){
+			$scope.showDialogBox = false;
 			$log.debug($scope.tokenModel.sandbox.server_key);
 			$log.debug($scope.tokenModel.sandbox.client_key);
 			$log.debug($scope.tokenModel.production.server_key);

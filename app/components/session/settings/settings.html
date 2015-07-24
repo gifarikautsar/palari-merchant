@@ -11,7 +11,7 @@
 		</div>
 	</div>
 	<hr class="no-margin" />
-	<form name="accessKeyForm" ng-submit="saveToken()" novalidate>
+	<form name="accessKeyForm" ng-submit="showDialogBox=true;" novalidate>
 		<div class="inner-content">
 			<span class="subtitle"><strong>Access Keys</strong></span>
 			<span class="subtitle-key text-right">Sandbox Environment</span>
@@ -51,4 +51,16 @@
 			<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="success=false">OK</button>
 		</div>
 	</div>
+	<div class="dialog-box absolute-center text-center" ng-show="showDialogBox" ng-cloak>
+		<span class="subtitle center-block" style="color: #FFFFFF"><strong>Change Access Key</strong></span>
+		<span class="text-label" style="color: #FFFFFF">Are you sure want to save changes?</span>
+		<span class="text-label" style="color: #FFFFFF">Changes will cause your transaction data to be lost</span><br/>
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<button class="btn-light-gray btn-primary pull-left" style="width: 100% !important" ng-click="showDialogBox=false;">CANCEL</button>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<button class="btn-orange btn-primary pull-right" style="width: 100% !important" ng-click="saveToken()">YES</button>
+		</div>
+	</div>
 </div>
+
